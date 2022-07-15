@@ -19,6 +19,7 @@ import { useForm } from "react-hook-form";
 import { formErrors } from "../../utils";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
+import { MdEmail } from "react-icons/md";
 
 const AuthForm = ({ type }) => {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -91,9 +92,19 @@ const AuthForm = ({ type }) => {
         onClick={() => signIn("google", { redirect: "/" })}
       >
         <Center>
-          <Text>
-            {type === "login" ? "Login with Google" : "Sign in with Google"}
-          </Text>
+          <Text>Continue with Google</Text>
+        </Center>
+      </Button>
+
+      <Button
+        w={"full"}
+        maxW={"lg"}
+        variant={"outline"}
+        leftIcon={<MdEmail />}
+        onClick={() => signIn("email", { redirect: "/" })}
+      >
+        <Center>
+          <Text>Continue with Email</Text>
         </Center>
       </Button>
 

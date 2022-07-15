@@ -5,7 +5,11 @@ import { getSession } from "next-auth/react";
 
 const RegisterPage = () => {
   return (
-    <Flex justifyContent="center" w={{ base: "100%", md: "50%" }} m="5rem auto">
+    <Flex
+      justifyContent="center"
+      w={{ base: "100%", md: "50rem" }}
+      m="5rem auto"
+    >
       <AuthForm type="register" />
 
       <Box position="relative" h="20rem" w={{ base: "0", md: "50%" }}>
