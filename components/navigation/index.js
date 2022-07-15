@@ -1,33 +1,52 @@
 import React, { useState } from "react";
-import { Button, Flex, IconButton } from "@chakra-ui/react";
+import { Box, Button, Flex, IconButton, Text } from "@chakra-ui/react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaHome } from "react-icons/fa";
 import { useRouter } from "next/router";
 import { useSession, signOut } from "next-auth/react";
+import { IoIosListBox, IoIosCalendar } from "react-icons/io";
+import { MdSpaceDashboard } from "react-icons/md";
 
 const Navigation = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [active, setActive] = useState(0);
   const { data: session, status } = useSession();
   const router = useRouter();
 
-  return (
-    <Flex maxW="100rem" m="0 auto" p="1rem" justifyContent="space-between">
-      <Flex gap="1rem">
-        <IconButton
-          variant="ghost"
-          aria-label="menu"
-          icon={<GiHamburgerMenu size={20} />}
-          color="black"
-          onClick={() => setDrawerOpen(!drawerOpen)}
-        />
+  const navItems = ["list", "dashboard", "calander"];
 
-        <IconButton
-          aria-label="home"
-          variant="ghost"
-          icon={<FaHome size={20} />}
-          color="black"
-          onClick={() => router.replace("/")}
-        />
+  const pathname = router.pathname;
+
+  return (
+    <Flex
+      m="0 auto"
+      p="1rem"
+      justifyContent="space-between"
+      alignItems="center"
+      borderBottom="1px solid rgba(236, 236, 236, 0.75)"
+    >
+      <Flex gap="1rem" width="25rem" justifyContent="space-evenly">
+        <Button
+          variant={pathname === "/list" ? "navActive" : "nav"}
+          onClick={() => router.replace("/list")}
+        >
+          <IoIosListBox />
+          <Text>List</Text>
+        </Button>
+        <Button
+          variant={pathname === "/dashboard" ? "navActive" : "nav"}
+          onClick={() => router.replace("/dashboard")}
+        >
+          <MdSpaceDashboard />
+          <Text>Dashboard</Text>
+        </Button>
+        <Button
+          variant={pathname === "/calendar" ? "navActive" : "nav"}
+          onClick={() => router.replace("/calendar")}
+        >
+          <IoIosCalendar />
+          <Text>Calendar</Text>
+        </Button>
       </Flex>
 
       {!session ? (
