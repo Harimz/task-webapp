@@ -9,7 +9,11 @@ const textStyles = {
     color: "black",
     mb: "1rem",
   },
-  h2: {},
+  subheading: {
+    fontWeight: FONT_WEIGHT.BOLD,
+    color: "black",
+    fontSize: "1.1rem",
+  },
   text: {},
   error: {
     fontSize: "0.75rem",
