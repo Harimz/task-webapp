@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import { Box, Button, Flex, IconButton, Text } from "@chakra-ui/react";
-import { GiHamburgerMenu } from "react-icons/gi";
-import { FaHome } from "react-icons/fa";
+import { Button, Flex, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useSession, signOut } from "next-auth/react";
 import { IoIosListBox, IoIosCalendar } from "react-icons/io";
@@ -19,13 +17,17 @@ const Navigation = () => {
 
   return (
     <Flex
-      m="0 auto"
       p="1rem"
       justifyContent="space-between"
       alignItems="center"
       borderBottom="1px solid rgba(236, 236, 236, 0.75)"
     >
-      <Flex gap="1rem" width="25rem" justifyContent="space-evenly">
+      <Flex
+        gap="1rem"
+        width="25rem"
+        justifyContent="space-evenly"
+        display={{ base: "none", md: "flex" }}
+      >
         <Button
           variant={pathname === "/list" ? "navActive" : "nav"}
           onClick={() => router.replace("/list")}
