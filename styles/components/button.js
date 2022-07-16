@@ -63,6 +63,12 @@ const Button = {
         transition: "0.3s",
       },
     },
+    sidebar: {
+      color: "gray.400",
+      _hover: {
+        color: "primary.200",
+      },
+    },
   },
 };
 

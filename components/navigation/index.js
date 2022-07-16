@@ -18,7 +18,7 @@ const Navigation = () => {
   return (
     <Flex
       p="1rem"
-      justifyContent="space-between"
+      justifyContent={{ base: "flex-end", md: "space-between" }}
       alignItems="center"
       borderBottom="1px solid rgba(236, 236, 236, 0.75)"
     >
@@ -53,10 +53,18 @@ const Navigation = () => {
 
       {!session ? (
         <Flex gap="1rem">
-          <Button variant="ghost" onClick={() => router.replace("/login")}>
+          <Button
+            size={{ base: "sm", md: "md" }}
+            variant="ghost"
+            onClick={() => router.replace("/login")}
+          >
             Login
           </Button>
-          <Button variant="primary" onClick={() => router.replace("/register")}>
+          <Button
+            size={{ base: "sm", md: "md" }}
+            variant="primary"
+            onClick={() => router.replace("/register")}
+          >
             Register
           </Button>
         </Flex>

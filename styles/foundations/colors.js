@@ -5,6 +5,7 @@ const colors = {
     300: "#7532d4",
   },
   grey: {
+    100: "#FDFDFD",
     200: "#FAFAFA",
     300: "#EEEEEE",
     400: "#D8D8D8",
