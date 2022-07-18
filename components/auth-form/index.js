@@ -37,7 +37,7 @@ const AuthForm = ({ type }) => {
       const data = await registerUser(credentials);
 
       if (data.status === "success") {
-        router.replace("/dashboard");
+        router.replace("/list");
       } else {
         toast({
           title: "An error has occurred",
@@ -54,10 +54,8 @@ const AuthForm = ({ type }) => {
     if (type === "login") {
       const data = await loginUser(credentials);
 
-      console.log(data);
-
       if (data.status === "success") {
-        router.replace("/dashboard");
+        router.replace("/list");
       } else {
         toast({
           title: "An error has occurred",

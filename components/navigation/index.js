@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { Button, Flex, Text } from "@chakra-ui/react";
+import { Avatar, Button, Flex, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useSession, signOut } from "next-auth/react";
 import { IoIosListBox, IoIosCalendar } from "react-icons/io";
 import { MdSpaceDashboard } from "react-icons/md";
+import NavItem from "./nav-item";
+import User from "../user";
 
 const Navigation = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -28,27 +30,11 @@ const Navigation = () => {
         justifyContent="space-evenly"
         display={{ base: "none", md: "flex" }}
       >
-        <Button
-          variant={pathname === "/list" ? "navActive" : "nav"}
-          onClick={() => router.replace("/list")}
-        >
-          <IoIosListBox />
-          <Text>List</Text>
-        </Button>
-        <Button
-          variant={pathname === "/board" ? "navActive" : "nav"}
-          onClick={() => router.replace("/board")}
-        >
-          <MdSpaceDashboard />
-          <Text>Board</Text>
-        </Button>
-        <Button
-          variant={pathname === "/calendar" ? "navActive" : "nav"}
-          onClick={() => router.replace("/calendar")}
-        >
-          <IoIosCalendar />
-          <Text>Calendar</Text>
-        </Button>
+        <NavItem icon={<IoIosListBox />} text="List" path="/list" />
+
+        <NavItem icon={<MdSpaceDashboard />} text="Board" path="/board" />
+
+        <NavItem icon={<IoIosCalendar />} text="Calendar" path="/calendar" />
       </Flex>
 
       {!session ? (
@@ -69,9 +55,10 @@ const Navigation = () => {
           </Button>
         </Flex>
       ) : (
-        <Button variant="primary" onClick={() => signOut()}>
-          Logout
-        </Button>
+        <Flex>
+          <User />
+          {/* <Button size="sm">Logout</Button> */}
+        </Flex>
       )}
     </Flex>
   );

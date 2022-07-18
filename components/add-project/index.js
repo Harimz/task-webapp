@@ -23,7 +23,7 @@ const AddProject = ({ isOpen, onClose, setIsOpen }) => {
   const dummyColors = ["red", "blue", "green", "purple", "orange", "yellow"];
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={onClose} autoFocus={false}>
       <ModalOverlay />
 
       <ModalContent w={{ base: "90%", md: "25rem" }} p="1rem">
