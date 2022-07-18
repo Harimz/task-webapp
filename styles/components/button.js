@@ -69,6 +69,12 @@ const Button = {
         color: "primary.200",
       },
     },
+    icon: {
+      bgColor: "gray.100",
+      boxShadow: "1px 1px 2px rgba(0,0,0,0.5)",
+      borderRadius: "50%",
+      size: "lg",
+    },
   },
 };
 

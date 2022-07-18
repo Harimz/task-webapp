@@ -13,9 +13,14 @@ import {
   Switch,
   Text,
 } from "@chakra-ui/react";
+import { projectColors } from "../../data";
+import { wordToHex } from "../../helpers";
 
 const AddProject = ({ isOpen, onClose, setIsOpen }) => {
   const [projectName, setProjectName] = useState("");
+
+  const keyValue = Object.entries(projectColors);
+  const dummyColors = ["red", "blue", "green", "purple", "orange", "yellow"];
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -42,7 +47,11 @@ const AddProject = ({ isOpen, onClose, setIsOpen }) => {
           <Box>
             <Text>Color</Text>
             <Select size="sm">
-              <option value="option1">Option 1</option>
+              {dummyColors.map((value) => (
+                <option value={wordToHex(value)} key={wordToHex(value)}>
+                  {value}
+                </option>
+              ))}
             </Select>
           </Box>
         </Flex>

@@ -1,11 +1,9 @@
 import React, { useState } from "react";
-import { Box, Button, Flex, Text } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 import { RiMenuUnfoldFill, RiMenuFoldFill } from "react-icons/ri";
-import { IoMdAdd } from "react-icons/io";
 import { motion } from "framer-motion";
 import { MdAddBox, MdFolderShared } from "react-icons/md";
-import { FaHome, FaTasks, FaInbox } from "react-icons/fa";
-import { IoMdPerson } from "react-icons/io";
+import { FaTasks, FaInbox } from "react-icons/fa";
 import { CgFolderAdd } from "react-icons/cg";
 import SidebarItem from "./sidebar-item";
 import Link from "next/link";
@@ -21,6 +19,7 @@ const Sidebar = () => {
 
       <Flex
         as={motion.div}
+        display={{ base: "none", md: "flex" }}
         w={sidebarOpen ? "10rem" : "5rem"}
         maxH="100%"
         h="100vh"

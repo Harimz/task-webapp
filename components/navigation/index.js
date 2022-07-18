@@ -36,11 +36,11 @@ const Navigation = () => {
           <Text>List</Text>
         </Button>
         <Button
-          variant={pathname === "/dashboard" ? "navActive" : "nav"}
-          onClick={() => router.replace("/dashboard")}
+          variant={pathname === "/board" ? "navActive" : "nav"}
+          onClick={() => router.replace("/board")}
         >
           <MdSpaceDashboard />
-          <Text>Dashboard</Text>
+          <Text>Board</Text>
         </Button>
         <Button
           variant={pathname === "/calendar" ? "navActive" : "nav"}
