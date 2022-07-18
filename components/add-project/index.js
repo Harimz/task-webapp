@@ -15,12 +15,22 @@ import {
 } from "@chakra-ui/react";
 import { projectColors } from "../../data";
 import { wordToHex } from "../../helpers";
+import axios from "axios";
 
 const AddProject = ({ isOpen, onClose, setIsOpen }) => {
   const [projectName, setProjectName] = useState("");
+  const [selectedColor, setSelectedColor] = useState("red");
+  const [isFavorite, setIsFavorite] = useState(false);
 
-  const keyValue = Object.entries(projectColors);
-  const dummyColors = ["red", "blue", "green", "purple", "orange", "yellow"];
+  const testHandler = async () => {
+    const { data } = await axios.post(
+      "/api/projects",
+      { name: projectName, color: selectedColor, isFavorite },
+      { "Content-Type": "application/json" }
+    );
+
+    console.log(data);
+  };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} autoFocus={false}>
@@ -46,13 +56,26 @@ const AddProject = ({ isOpen, onClose, setIsOpen }) => {
 
           <Box>
             <Text>Color</Text>
-            <Select size="sm">
-              {dummyColors.map((value) => (
-                <option value={wordToHex(value)} key={wordToHex(value)}>
-                  {value}
-                </option>
-              ))}
-            </Select>
+
+            <Flex alignItems="center" gap="0.5rem">
+              <Select
+                size="sm"
+                onChange={({ target }) => setSelectedColor(target.value)}
+              >
+                {projectColors.map((value) => (
+                  <option value={wordToHex(value)} key={wordToHex(value)}>
+                    {value}
+                  </option>
+                ))}
+              </Select>
+
+              <Box
+                h="1rem"
+                w="1rem"
+                borderRadius="50%"
+                bgColor={selectedColor}
+              />
+            </Flex>
           </Box>
         </Flex>
 
@@ -63,7 +86,11 @@ const AddProject = ({ isOpen, onClose, setIsOpen }) => {
           borderBottom="1px solid rgba(236, 236, 236, 0.75)"
           paddingBottom="3rem"
         >
-          <Switch colorScheme="purple" mr="1rem" />
+          <Switch
+            onChange={() => setIsFavorite((state) => !state)}
+            colorScheme="purple"
+            mr="1rem"
+          />
 
           <FormLabel htmlFor="email-alerts" mb="0">
             Add to favorites?
@@ -74,7 +101,7 @@ const AddProject = ({ isOpen, onClose, setIsOpen }) => {
           <Button size="sm" variant="ghost" onClick={() => setIsOpen(false)}>
             Cancel
           </Button>
-          <Button size="sm" variant="primary">
+          <Button size="sm" variant="primary" onClick={testHandler}>
             Add
           </Button>
         </Flex>

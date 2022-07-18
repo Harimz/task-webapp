@@ -7,21 +7,8 @@ import { clientPromise } from "../../../lib";
 import User from "../../../models/userModel";
 import { dbConnect } from "../../../lib";
 
-export default NextAuth({
-  // adapter: MongoDBAdapter(clientPromise),
-
+export const authOptions = {
   providers: [
-    // EmailProvider({
-    //   server: {
-    //     host: process.env.EMAIL_SERVER_HOST,
-    //     port: process.env.EMAIL_SERVER_PORT,
-    //     auth: {
-    //       user: process.env.EMAIL_SERVER_USER,
-    //       pass: process.env.EMAIL_SERVER_PASSWORD,
-    //     },
-    //   },
-    //   from: process.env.EMAIL_FROM,
-    // }),
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -47,4 +34,6 @@ export default NextAuth({
   ],
 
   secret: "secret",
-});
+};
+
+export default NextAuth(authOptions);
