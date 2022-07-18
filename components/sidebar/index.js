@@ -14,18 +14,17 @@ const Sidebar = () => {
   const [projectModalOpen, setProjectModalOpen] = useState(false);
 
   return (
-    <>
+    <Box display={{ base: "none", md: "block" }}>
       <AddProject isOpen={projectModalOpen} setIsOpen={setProjectModalOpen} />
 
       <Flex
         as={motion.div}
-        display={{ base: "none", md: "flex" }}
         w={sidebarOpen ? "10rem" : "5rem"}
         maxH="100%"
         h="100vh"
         borderRight="1px solid rgba(236, 236, 236, 0.75)"
         flexDir="column"
-        animate={{ width: sidebarOpen ? "20rem" : "5rem" }}
+        animate={{ width: sidebarOpen ? "17rem" : "5rem" }}
         transition={{
           type: "spring",
           damping: 10,
@@ -101,7 +100,7 @@ const Sidebar = () => {
           )}
         </Flex>
       </Flex>
-    </>
+    </Box>
   );
 };
 

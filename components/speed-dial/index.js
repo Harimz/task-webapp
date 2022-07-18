@@ -25,17 +25,15 @@ const SpeedDial = () => {
       />
 
       <Flex
-        as={motion.div}
         position="absolute"
         w="100%"
         flexDir="column"
         alignItems="center"
         gap="1rem"
-        display={dialOpen ? "flex" : "none"}
-        animate={{
-          bottom: dialOpen ? "4rem" : "3rem",
-          opacity: dialOpen ? "100%" : "0",
-        }}
+        bottom={dialOpen ? "4rem" : "3rem"}
+        opacity={dialOpen ? "100%" : "0"}
+        transition="all 0.3s ease"
+        pointerEvents={dialOpen ? "all" : "none"}
       >
         <IconButton variant="icon" icon={<FaInbox />} />
         <IconButton variant="icon" icon={<FaTasks />} />
