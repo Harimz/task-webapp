@@ -15,21 +15,23 @@ import {
 } from "@chakra-ui/react";
 import { projectColors } from "../../data";
 import { wordToHex } from "../../helpers";
-import axios from "axios";
+import { addProject } from "../../redux/api/projectCalls";
+import { useDispatch, useSelector } from "react-redux";
+import { Spinner } from "@chakra-ui/react";
 
 const AddProject = ({ isOpen, onClose, setIsOpen }) => {
   const [projectName, setProjectName] = useState("");
   const [selectedColor, setSelectedColor] = useState("red");
   const [isFavorite, setIsFavorite] = useState(false);
+  const dispatch = useDispatch();
+  const { pending, error } = useSelector((state) => state.projects);
 
   const testHandler = async () => {
-    const { data } = await axios.post(
-      "/api/projects",
-      { name: projectName, color: selectedColor, isFavorite },
-      { "Content-Type": "application/json" }
-    );
-
-    console.log(data);
+    addProject(dispatch, {
+      name: projectName,
+      color: selectedColor,
+      isFavorite,
+    });
   };
 
   return (
@@ -102,7 +104,7 @@ const AddProject = ({ isOpen, onClose, setIsOpen }) => {
             Cancel
           </Button>
           <Button size="sm" variant="primary" onClick={testHandler}>
-            Add
+            {pending ? <Spinner /> : "Add"}
           </Button>
         </Flex>
       </ModalContent>

@@ -13,13 +13,17 @@ export default Wrapper({
       throw new Exception("Not authorized.", 401);
     }
 
-    console.log(session);
-
     await dbConnect();
 
     const { color, name, isFavorite } = req.body;
 
     const user = await User.findOne({ email: session.user.email });
+
+    const projectExists = await Project.findOne({ name });
+
+    if (projectExists) {
+      throw new Exception("Project name is already in use.", 409);
+    }
 
     const newProject = await Project.create({
       name,
@@ -28,8 +32,8 @@ export default Wrapper({
       user: user._id,
     });
 
-    console.log(newProject);
+    const projects = await Project.find({});
 
-    return "Good";
+    return projects;
   },
 });
