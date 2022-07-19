@@ -18,6 +18,7 @@ import { wordToHex } from "../../helpers";
 import { addProject } from "../../redux/api/projectCalls";
 import { useDispatch, useSelector } from "react-redux";
 import { Spinner } from "@chakra-ui/react";
+import { useSession } from "next-auth/react";
 
 const AddProject = ({ isOpen, onClose, setIsOpen }) => {
   const [projectName, setProjectName] = useState("");
@@ -25,6 +26,7 @@ const AddProject = ({ isOpen, onClose, setIsOpen }) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const dispatch = useDispatch();
   const { pending, error } = useSelector((state) => state.projects);
+  const { data: session } = useSession();
 
   const testHandler = async () => {
     addProject(dispatch, {
@@ -103,7 +105,12 @@ const AddProject = ({ isOpen, onClose, setIsOpen }) => {
           <Button size="sm" variant="ghost" onClick={() => setIsOpen(false)}>
             Cancel
           </Button>
-          <Button size="sm" variant="primary" onClick={testHandler}>
+          <Button
+            size="sm"
+            variant="primary"
+            onClick={testHandler}
+            disabled={session ? false : true}
+          >
             {pending ? <Spinner /> : "Add"}
           </Button>
         </Flex>

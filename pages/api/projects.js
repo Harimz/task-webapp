@@ -49,8 +49,6 @@ export default Wrapper({
 
     const userProjects = await Project.find({ user: user._id });
 
-    console.log(userProjects);
-
     return userProjects;
   },
 });
