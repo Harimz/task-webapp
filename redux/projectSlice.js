@@ -21,10 +21,27 @@ export const projectSlice = createSlice({
       state.error = action.payload;
       state.pending = false;
     },
+    getProjectsStart: (state) => {
+      state.pending = true;
+    },
+    getProjectsSuccess: (state, action) => {
+      state.pending = false;
+      state.projects = action.payload;
+    },
+    getProjectsError: (state, action) => {
+      state.pending = false;
+      state.error = action.payload;
+    },
   },
 });
 
-export const { addProjectStart, addProjectSuccess, addProjectError } =
-  projectSlice.actions;
+export const {
+  addProjectStart,
+  addProjectSuccess,
+  addProjectError,
+  getProjectsStart,
+  getProjectsSuccess,
+  getProjectsError,
+} = projectSlice.actions;
 
 export default projectSlice.reducer;

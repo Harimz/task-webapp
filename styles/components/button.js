@@ -75,6 +75,14 @@ const Button = {
       borderRadius: "50%",
       size: "lg",
     },
+    project: {
+      color: "gray.400",
+      borderRadius: "0",
+      _hover: {
+        color: "gray.500",
+        bgColor: "gray.100",
+      },
+    },
   },
 };
 

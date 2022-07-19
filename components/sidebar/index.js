@@ -8,6 +8,7 @@ import { CgFolderAdd } from "react-icons/cg";
 import SidebarItem from "./sidebar-item";
 import Link from "next/link";
 import AddProject from "../add-project";
+import ProjectList from "./project-list";
 
 const Sidebar = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -16,7 +17,6 @@ const Sidebar = () => {
   return (
     <Box display={{ base: "none", md: "block" }}>
       <AddProject isOpen={projectModalOpen} setIsOpen={setProjectModalOpen} />
-
       <Flex
         as={motion.div}
         w={sidebarOpen ? "10rem" : "5rem"}
@@ -52,7 +52,6 @@ const Sidebar = () => {
             />
           )}
         </Flex>
-
         <Flex flexDir="column" gap="2rem">
           <SidebarItem
             isOpen={sidebarOpen}
@@ -76,7 +75,6 @@ const Sidebar = () => {
             setIsOpen={setSidebarOpen}
           />
         </Flex>
-
         <Flex
           mt="3rem"
           alignItems="center"
@@ -99,6 +97,8 @@ const Sidebar = () => {
             <CgFolderAdd />
           )}
         </Flex>
+
+        <ProjectList sidebarOpen={sidebarOpen} />
       </Flex>
     </Box>
   );
