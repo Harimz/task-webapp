@@ -22,11 +22,7 @@ const ProjectList = ({ sidebarOpen }) => {
   }, [dispatch]);
 
   if (pending) {
-    return (
-      <Flex mt="2rem" w="100%" justifyContent="center">
-        <Spinner color="black" />;
-      </Flex>
-    );
+    return "";
   }
 
   return (

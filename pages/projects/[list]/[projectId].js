@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { Button, Flex, Heading, Stack, Text } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import { AiOutlineUserAdd } from "react-icons/ai";
+import Sections from "../../../components/sections";
 
 const ProjectPage = () => {
   const router = useRouter();
@@ -12,7 +13,7 @@ const ProjectPage = () => {
   const project = projects.filter((project) => project._id === projectId).pop();
 
   if (pending) {
-    return "loading...";
+    return "";
   }
 
   return (
@@ -31,6 +32,8 @@ const ProjectPage = () => {
           </Flex>
         </Button>
       </Flex>
+
+      <Sections project={project} pending={pending} />
     </Stack>
   );
 };

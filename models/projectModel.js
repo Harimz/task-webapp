@@ -40,7 +40,7 @@ const taskSchema = new mongoose.Schema({
 const sectionSchema = new mongoose.Schema({
   name: {
     type: String,
-    default: "No Section",
+    required: true,
   },
   tasks: [taskSchema],
 });

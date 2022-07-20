@@ -6,6 +6,9 @@ import {
   getProjectsStart,
   getProjectsSuccess,
   getProjectsError,
+  updateProjectStart,
+  updateProjectError,
+  updateProjectSuccess,
 } from "../projectSlice";
 
 export const addProject = async (dispatch, projectDetails) => {
@@ -44,4 +47,21 @@ export const getProjects = async (dispatch) => {
   }
 };
 
-export const updateProject = async (dispatch, updateDetails) => {};
+export const updateProject = async (dispatch, id, updateDetails) => {
+  dispatch(updateProjectStart());
+
+  try {
+    const { data } = await axios.put(`/api/projects/${id}`, updateDetails, {
+      "Content-Type": "application/json",
+    });
+
+    dispatch(updateProjectSuccess(data));
+  } catch (error) {
+    const errorMessage =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+
+    dispatch(updateProjectError(errorMessage));
+  }
+};
