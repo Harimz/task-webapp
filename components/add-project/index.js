@@ -34,6 +34,8 @@ const AddProject = ({ isOpen, onClose, setIsOpen }) => {
       color: selectedColor,
       isFavorite,
     });
+
+    setIsOpen(false);
   };
 
   return (

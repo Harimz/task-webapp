@@ -44,13 +44,14 @@ export default Wrapper({
     if (updates.includes("sectionName")) {
       let existingSections = project.sections;
 
-      existingSections.push({ name: updateDetails.sectioName });
+      existingSections.push({ name: updateDetails.sectionName });
 
       project.sections = existingSections;
 
       await project.save();
-    }
 
-    console.log(project);
+      const projects = await Project.find({ user: user._id });
+      return projects;
+    }
   },
 });

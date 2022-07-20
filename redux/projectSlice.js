@@ -37,7 +37,7 @@ export const projectSlice = createSlice({
     },
     updateProjectSuccess: (state, action) => {
       state.pending = false;
-      // state.projects = action.payload;
+      state.projects = action.payload;
     },
     updateProjectError: (state, action) => {
       state.pending = false;

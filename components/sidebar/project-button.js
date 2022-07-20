@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Button, Flex, Grid, IconButton, Text } from "@chakra-ui/react";
+import { Box, Flex, Grid, IconButton, Text } from "@chakra-ui/react";
 import { BsThreeDots } from "react-icons/bs";
 import Link from "next/link";
 import { useRouter } from "next/router";

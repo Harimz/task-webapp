@@ -1,17 +1,8 @@
 import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Button,
-  Flex,
-  Grid,
-  IconButton,
-  Spinner,
-  Text,
-} from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import { getProjects } from "../../redux/api/projectCalls";
 import { useSelector, useDispatch } from "react-redux";
 import ProjectButton from "./project-button";
-import Link from "next/link";
 
 const ProjectList = ({ sidebarOpen }) => {
   const { projects, pending } = useSelector((state) => state.projects);
