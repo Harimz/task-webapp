@@ -43,6 +43,9 @@ export const projectSlice = createSlice({
       state.pending = false;
       state.error = action.payload;
     },
+    clearProjects: (state) => {
+      state.projects = [];
+    },
   },
 });
 
@@ -56,6 +59,7 @@ export const {
   updateProjectStart,
   updateProjectSuccess,
   updateProjectError,
+  clearProjects,
 } = projectSlice.actions;
 
 export default projectSlice.reducer;

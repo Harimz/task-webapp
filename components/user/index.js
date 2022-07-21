@@ -13,8 +13,12 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { signOut } from "next-auth/react";
+import { useDispatch } from "react-redux";
+import { clearProjects } from "../../redux/projectSlice";
 
 const User = () => {
+  const dispatch = useDispatch();
+
   return (
     <Flex>
       <Popover>
@@ -27,7 +31,15 @@ const User = () => {
           <PopoverCloseButton />
           <PopoverHeader>User</PopoverHeader>
           <PopoverBody>
-            <Button w="100%" variant="ghost" onClick={() => signOut()}>
+            <Button
+              w="100%"
+              variant="ghost"
+              onClick={() => {
+                signOut();
+
+                dispatch(clearProjects());
+              }}
+            >
               Logout
             </Button>
           </PopoverBody>
