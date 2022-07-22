@@ -52,6 +52,13 @@ export default Wrapper({
 
       const projects = await Project.find({ user: user._id });
       return projects;
+    } else {
+      updates.forEach((update) => (project[update] = req.body[update]));
+
+      await project.save();
+
+      const projects = await Project.find({ user: user._id });
+      return projects;
     }
   },
 });
