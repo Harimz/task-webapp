@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
   Box,
+  Button,
   Flex,
   GridItem,
   Heading,
@@ -12,7 +13,12 @@ import { BsThreeDots } from "react-icons/bs";
 import { FaPlus } from "react-icons/fa";
 
 const BoardView = ({ section, projectColor }) => {
-  const [addTodo, setAddTodo] = useState(false);
+  const [addTask, setAddTask] = useState(false);
+  const [task, setTask] = useState("");
+
+  const addTaskHandler = () => {
+    console.log(task);
+  };
 
   return (
     <GridItem>
@@ -46,7 +52,7 @@ const BoardView = ({ section, projectColor }) => {
 
       {section?.tasks.map((task) => {})}
 
-      {!addTodo ? (
+      {!addTask ? (
         <Flex
           alignItems="center"
           gap="1rem"
@@ -54,21 +60,37 @@ const BoardView = ({ section, projectColor }) => {
           _hover={{ color: "primary.200" }}
           fontWeight="semibold"
           mt="0.5rem"
-          onClick={() => setAddTodo(true)}
+          onClick={() => setAddTask(true)}
         >
           <IconButton size="sm" variant="ghost" icon={<FaPlus />} />
           <Text>Add Task</Text>
         </Flex>
       ) : (
-        <Flex
-          p="0.5rem"
-          borderRadius="10px"
-          mt="1rem"
-          h="10rem"
-          border="1px solid gray"
-        >
-          <Input variant="ghost" placeholder="ex. Go to work." size="sm" />
-        </Flex>
+        <>
+          <Flex
+            p="0.5rem"
+            borderRadius="10px"
+            mt="1rem"
+            h="10rem"
+            border="1px solid gray"
+          >
+            <Input
+              onChange={({ target }) => setTask(target.value)}
+              variant="ghost"
+              placeholder="ex. Go to work."
+              size="sm"
+            />
+          </Flex>
+
+          <Flex mt="1rem" gap="1rem" justifyContent="flex-end">
+            <Button variant="ghost" size="sm" onClick={() => setAddTask(false)}>
+              Cancel
+            </Button>
+            <Button onClick={addTaskHandler} variant="primary" size="sm">
+              Add
+            </Button>
+          </Flex>
+        </>
       )}
     </GridItem>
   );
