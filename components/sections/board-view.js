@@ -11,17 +11,24 @@ import {
 } from "@chakra-ui/react";
 import { BsThreeDots } from "react-icons/bs";
 import { FaPlus } from "react-icons/fa";
+import { addSectionTask } from "../../redux/api/sectionCalls";
+import { useDispatch } from "react-redux";
 
 const BoardView = ({ section, projectColor }) => {
   const [addTask, setAddTask] = useState(false);
-  const [task, setTask] = useState("");
+  const [task, setTask] = useState({
+    title: "",
+    description: "",
+  });
+  const dispatch = useDispatch();
 
   const addTaskHandler = () => {
-    console.log(task);
+    console.log(section);
+    addSectionTask(dispatch);
   };
 
   return (
-    <GridItem>
+    <GridItem border="2px solid red">
       <Flex
         alignItems="center"
         justifyContent="space-between"
@@ -67,20 +74,25 @@ const BoardView = ({ section, projectColor }) => {
         </Flex>
       ) : (
         <>
-          <Flex
+          <Box
             p="0.5rem"
             borderRadius="10px"
             mt="1rem"
             h="10rem"
             border="1px solid gray"
+            w="100%"
           >
             <Input
-              onChange={({ target }) => setTask(target.value)}
+              onChange={({ target }) =>
+                setTask((state) => ({ ...state, title: target.value }))
+              }
               variant="ghost"
               placeholder="ex. Go to work."
               size="sm"
             />
-          </Flex>
+
+            <Input />
+          </Box>
 
           <Flex mt="1rem" gap="1rem" justifyContent="flex-end">
             <Button variant="ghost" size="sm" onClick={() => setAddTask(false)}>

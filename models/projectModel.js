@@ -32,8 +32,8 @@ const taskSchema = new mongoose.Schema({
     type: String,
   },
   section: {
-    type: "String",
-    default: "No Section",
+    type: String,
+    default: "inbox",
   },
 });
 

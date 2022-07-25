@@ -56,7 +56,7 @@ const Sections = ({ project, pending }) => {
   return (
     <Flex>
       {query.list === "board" ? (
-        <Grid gridTemplateColumns="repeat(auto-fill, minmax(275px, 1fr))">
+        <Grid gridTemplateColumns="repeat(auto-fill, minmax(275px, 300px))">
           {project?.sections.map((section) => (
             <BoardView
               key={project._id}
@@ -104,7 +104,12 @@ const Sections = ({ project, pending }) => {
           />
 
           <Flex gap="1rem">
-            <Button onClick={addSectionHandler} variant="primary" size="sm">
+            <Button
+              disabled={sectionName.length === 0}
+              onClick={addSectionHandler}
+              variant="primary"
+              size="sm"
+            >
               Add Section
             </Button>
             <Button
