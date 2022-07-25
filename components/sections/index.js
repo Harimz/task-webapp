@@ -11,9 +11,9 @@ import {
 import { updateProject } from "../../redux/api/projectCalls";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
-import BoardView from "./board-view";
-import ListView from "./list-view";
 import { GoDiffAdded } from "react-icons/go";
+import BoardItem from "./board";
+import DefaultView from "./default-view";
 
 const Sections = ({ project, pending }) => {
   const [sectionName, setSectionName] = useState("");
@@ -33,42 +33,44 @@ const Sections = ({ project, pending }) => {
 
   if (project?.sections.length === 0) {
     return (
-      <Box w="95%" maxW="15rem">
-        <Input
-          placeholder="Name this section"
-          size="sm"
-          onChange={({ target }) => setSectionName(target.value)}
-        />
-        <Flex justifyContent="flex-end" mt="1rem">
-          <Button
-            variant="primary"
-            size="sm"
-            onClick={addSectionHandler}
-            disabled={sectionName.length === 0}
-          >
-            Add Section
-          </Button>
-        </Flex>
-      </Box>
+      <DefaultView
+        sectionName={sectionName}
+        setSectionName={setSectionName}
+        addSectionHandler={addSectionHandler}
+      />
     );
   }
 
   return (
-    <Flex>
+    <Flex
+      pb="4rem"
+      w="100%"
+      maxW="90rem"
+      overflowX="auto"
+      css={{
+        "&::-webkit-scrollbar": {
+          width: "4px",
+          height: "6px",
+        },
+        "&::-webkit-scrollbar-track": {
+          width: "6px",
+        },
+        "&::-webkit-scrollbar-thumb": {
+          background: "gray",
+          borderRadius: "24px",
+        },
+      }}
+    >
       {query.list === "board" ? (
-        <Grid gridTemplateColumns="repeat(auto-fill, minmax(275px, 300px))">
-          {project?.sections.map((section) => (
-            <BoardView
-              key={project._id}
-              section={section}
-              projectColor={project.color}
-            />
+        <Flex gap="2rem">
+          {project?.sections.map((section, i) => (
+            <BoardItem key={i} section={section} projectColor={project.color} />
           ))}
-        </Grid>
+        </Flex>
       ) : (
         <Flex>
-          {project?.sections.map((project) => (
-            <ListView key={project._id} section={section} />
+          {project?.sections.map((project, i) => (
+            <p key={i}>Pending</p>
           ))}
         </Flex>
       )}
@@ -86,7 +88,6 @@ const Sections = ({ project, pending }) => {
           h="3rem"
           gap="1rem"
           alignItems="center"
-          w="275px"
           fontWeight="semibold"
           color="gray.500"
           onClick={() => setAddSection(true)}
