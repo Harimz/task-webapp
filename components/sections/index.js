@@ -64,7 +64,12 @@ const Sections = ({ project, pending }) => {
       {query.list === "board" ? (
         <Flex gap="2rem">
           {project?.sections.map((section, i) => (
-            <BoardItem key={i} section={section} projectColor={project.color} />
+            <BoardItem
+              project={project}
+              key={i}
+              section={section}
+              projectColor={project.color}
+            />
           ))}
         </Flex>
       ) : (

@@ -32,6 +32,7 @@ export default Wrapper({
       "sections",
       "isFavorite",
       "sectionName",
+      "task",
     ];
     const isValidOperation = updates.every((update) =>
       allowedUpdates.includes(update)
@@ -52,8 +53,21 @@ export default Wrapper({
 
       const projects = await Project.find({ user: user._id });
       return projects;
-    } else {
-      updates.forEach((update) => (project[update] = req.body[update]));
+    }
+
+    if (updates.includes("task")) {
+      const sectionId = updateDetails.task.sectionId;
+      const { title, description, section } = updateDetails.task;
+
+      const existingSection = project.sections.filter(
+        (section) => section._id.toString() === sectionId
+      )[0];
+
+      existingSection.tasks.push({ title, description, section });
+
+      project.sections.filter(
+        (section) => section._id.toString() === sectionId
+      )[0] = existingSection;
 
       await project.save();
 

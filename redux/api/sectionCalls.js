@@ -28,11 +28,13 @@ export const removeSection = async (dispatch, sectionId) => {
   }
 };
 
-export const addSectionTask = async (dispatch, sectionId, task) => {
+export const addSectionTask = async (dispatch, projectId, task) => {
   dispatch(addSectionTaskStart());
 
   try {
-    const { data } = await axios.post(`/api/sections/${sectionId}`, task, {
+    console.log(task);
+
+    const { data } = await axios.put(`/api/projects/${projectId}`, task, {
       "Content-Type": "application/json",
     });
 

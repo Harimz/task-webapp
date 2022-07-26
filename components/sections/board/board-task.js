@@ -16,12 +16,19 @@ const BoardTask = ({ setTask, addTaskHandler, setAddTask }) => {
           onChange={({ target }) =>
             setTask((state) => ({ ...state, title: target.value }))
           }
-          variant="ghost"
+          variant="flushed"
           placeholder="ex. Go to work."
           size="sm"
         />
 
-        <Input />
+        <Input
+          onChange={({ target }) =>
+            setTask((state) => ({ ...state, description: target.value }))
+          }
+          h="3rem"
+          placeholder="description"
+          variant="flushed"
+        />
       </Box>
 
       <Flex mt="1rem" gap="1rem" justifyContent="flex-end">

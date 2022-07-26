@@ -5,8 +5,9 @@ import { addSectionTask } from "../../../redux/api/sectionCalls";
 import { useDispatch } from "react-redux";
 import BoardHeader from "./board-header";
 import BoardTask from "./board-task";
+import Task from "./task";
 
-const BoardItem = ({ section, projectColor }) => {
+const BoardItem = ({ section, projectColor, project }) => {
   const [addTask, setAddTask] = useState(false);
   const [task, setTask] = useState({
     title: "",
@@ -15,22 +16,33 @@ const BoardItem = ({ section, projectColor }) => {
   const dispatch = useDispatch();
 
   const addTaskHandler = () => {
-    console.log(section);
-    addSectionTask(dispatch);
+    addSectionTask(dispatch, project._id, {
+      task: {
+        ...task,
+        sectionId: section._id,
+        section: section._id,
+      },
+    });
+
+    setAddTask(false);
   };
 
   return (
     <GridItem w="20rem">
       <BoardHeader section={section} projectColor={projectColor} />
 
-      {section?.tasks.map((task) => {})}
+      {section?.tasks.map((task) => (
+        <Task key={task._id} task={task} />
+      ))}
 
       {!addTask ? (
         <Flex
           alignItems="center"
           gap="1rem"
           cursor="pointer"
-          _hover={{ color: "primary.200" }}
+          transition="all 0.3s ease"
+          borderRadius="10px"
+          _hover={{ color: "gray.500", bgColor: "gray.100" }}
           fontWeight="semibold"
           mt="0.5rem"
           onClick={() => setAddTask(true)}
