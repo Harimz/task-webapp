@@ -57,13 +57,20 @@ export default Wrapper({
 
     if (updates.includes("task")) {
       const sectionId = updateDetails.task.sectionId;
-      const { title, description, section } = updateDetails.task;
+      const { title, description, section, taskDate, labels } =
+        updateDetails.task;
 
       const existingSection = project.sections.filter(
         (section) => section._id.toString() === sectionId
       )[0];
 
-      existingSection.tasks.push({ title, description, section });
+      existingSection.tasks.push({
+        title,
+        description,
+        section,
+        taskDate,
+        labels,
+      });
 
       project.sections.filter(
         (section) => section._id.toString() === sectionId

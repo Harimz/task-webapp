@@ -10,11 +10,7 @@ export default Wrapper({
       throw new Exception("Valid inputs required", 422);
     }
 
-    console.log("Working");
-
     await dbConnect();
-
-    console.log("Still Working");
 
     const userExists = await User.findOne({ email });
 

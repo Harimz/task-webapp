@@ -4,6 +4,8 @@ import { Provider } from "react-redux";
 import Layout from "../components/layout";
 import theme from "../styles/theme";
 import { store } from "../redux/store";
+import "react-datepicker/dist/react-datepicker.css";
+import "../styles/datepicker.css";
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   return (

@@ -2,8 +2,6 @@ import React from "react";
 import { Divider, Flex, Heading, Text } from "@chakra-ui/react";
 
 const Task = ({ task }) => {
-  console.log(task);
-
   return (
     <Flex
       boxShadow="rgba(99, 99, 99, 0.2) 0px 2px 8px 0px"

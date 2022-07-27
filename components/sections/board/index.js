@@ -14,11 +14,15 @@ const BoardItem = ({ section, projectColor, project }) => {
     description: "",
   });
   const dispatch = useDispatch();
+  const [labels, setLabels] = useState([]);
+  const [startDate, setStartDate] = useState(new Date());
 
   const addTaskHandler = () => {
     addSectionTask(dispatch, project._id, {
       task: {
         ...task,
+        labels,
+        taskDate: startDate.toString(),
         sectionId: section._id,
         section: section._id,
       },
@@ -55,6 +59,11 @@ const BoardItem = ({ section, projectColor, project }) => {
           setTask={setTask}
           addTaskHandler={addTaskHandler}
           setAddTask={setAddTask}
+          setLabels={setLabels}
+          labels={labels}
+          projectColor={projectColor}
+          startDate={startDate}
+          setStartDate={setStartDate}
         />
       )}
     </GridItem>

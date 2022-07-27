@@ -31,8 +31,6 @@ const ProjectPage = () => {
   const favoriteHandler = () => {
     setIsFavorite((state) => !state);
 
-    console.log(isFavorite);
-
     // updateProject(dispatch, project._id, { isFavorite: isFavorite });
   };
 

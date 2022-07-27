@@ -15,6 +15,12 @@ const commentSchema = new mongoose.Schema({
   },
 });
 
+const labelSchema = new mongoose.Schema({
+  title: {
+    type: String,
+  },
+});
+
 const taskSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -27,6 +33,11 @@ const taskSchema = new mongoose.Schema({
   description: {
     type: String,
   },
+  taskDate: {
+    type: String,
+  },
+  comments: [commentSchema],
+  labels: [labelSchema],
   section: {
     type: String,
     default: "inbox",

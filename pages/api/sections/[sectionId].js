@@ -17,13 +17,15 @@ export default Wrapper({
     const user = await User.findOne({ email: session.user.email });
 
     const project = await Project.findById(projectId);
-
-    console.log(project);
   },
   POST: async (req, res) => {
     const session = await unstable_getServerSession(req, res, authOptions);
     const {
       query: { sectionId },
     } = req;
+
+    await dbConnect();
+
+    const project = await Project.findById();
   },
 });
