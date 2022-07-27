@@ -6,7 +6,7 @@ import {
   removeSectionError,
   removeSectionStart,
   removeSectionSuccess,
-} from "../sectionSlice";
+} from "../projectSlice";
 
 export const removeSection = async (dispatch, sectionId) => {
   dispatch(removeSectionStart());
@@ -32,8 +32,6 @@ export const addSectionTask = async (dispatch, projectId, task) => {
   dispatch(addSectionTaskStart());
 
   try {
-    console.log(task);
-
     const { data } = await axios.put(`/api/projects/${projectId}`, task, {
       "Content-Type": "application/json",
     });

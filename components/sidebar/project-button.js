@@ -10,7 +10,7 @@ const ProjectButton = ({ project, sidebarOpen }) => {
   const projectId = router.query.projectId;
 
   return (
-    <Link passHref href={`/projects/board/${project._id}`}>
+    <Link passHref href={`/projects/${project._id}`}>
       <Flex
         onMouseOver={() => setShowEdit(true)}
         onMouseOut={() => setShowEdit(false)}

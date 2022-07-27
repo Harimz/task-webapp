@@ -43,6 +43,28 @@ export const projectSlice = createSlice({
       state.pending = false;
       state.error = action.payload;
     },
+    removeSectionStart: (state, action) => {
+      state.pending = true;
+    },
+    removeSectionSuccess: (state, action) => {
+      state.pending = false;
+      state.projects = action.payload;
+    },
+    removeSectionError: (state, action) => {
+      state.pending = false;
+      state.error = action.payload;
+    },
+    addSectionTaskStart: (state) => {
+      state.pending = true;
+    },
+    addSectionTaskSuccess: (state, action) => {
+      state.pending = false;
+      state.projects = action.payload;
+    },
+    addSectionTaskError: (state, action) => {
+      state.pending = false;
+      state.error = action.payload;
+    },
     clearProjects: (state) => {
       state.projects = [];
     },
@@ -59,6 +81,12 @@ export const {
   updateProjectStart,
   updateProjectSuccess,
   updateProjectError,
+  removeSectionStart,
+  removeSectionSuccess,
+  removeSectionError,
+  addSectionTaskStart,
+  addSectionTaskSuccess,
+  addSectionTaskError,
   clearProjects,
 } = projectSlice.actions;
 
