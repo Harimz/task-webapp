@@ -127,7 +127,13 @@ const BoardTask = ({
         <Button variant="ghost" size="sm" onClick={() => setAddTask(false)}>
           Cancel
         </Button>
-        <Button onClick={addTaskHandler} variant="primary" size="sm">
+        <Button
+          onClick={addTaskHandler}
+          bgColor={projectColor}
+          color="white"
+          size="sm"
+          _hover={{ bgColor: `#${projectColor.substring(1)}70` }}
+        >
           Add
         </Button>
       </Flex>

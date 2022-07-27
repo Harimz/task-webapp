@@ -36,7 +36,7 @@ const BoardItem = ({ section, projectColor, project }) => {
       <BoardHeader section={section} projectColor={projectColor} />
 
       {section?.tasks.map((task) => (
-        <Task key={task._id} task={task} />
+        <Task key={task._id} task={task} projectColor={projectColor} />
       ))}
 
       {!addTask ? (

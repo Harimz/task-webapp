@@ -1,18 +1,20 @@
 import { Box, Text } from "@chakra-ui/react";
 import React from "react";
 
-const Label = ({ title, setLabels, labels, projectColor }) => {
+const Label = ({ title, setLabels, labels, projectColor, edit }) => {
   const labelsHandler = () => {
-    const updatedLabels = labels.filter((label) => label.title !== title);
+    if (edit) {
+      const updatedLabels = labels.filter((label) => label.title !== title);
 
-    setLabels(updatedLabels);
+      setLabels(updatedLabels);
+    }
   };
 
   return (
     <Box
       bgColor={`#${projectColor.substring(1)}20`}
       borderRadius="15px"
-      cursor="pointer"
+      cursor={edit ? "pointer" : "normal"}
       onClick={labelsHandler}
     >
       <Text
