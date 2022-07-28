@@ -1,21 +1,8 @@
 import React, { useState } from "react";
-import {
-  Box,
-  Button,
-  Flex,
-  IconButton,
-  Input,
-  Popover,
-  PopoverArrow,
-  PopoverContent,
-  PopoverTrigger,
-  Text,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Box, Button, Flex, Input } from "@chakra-ui/react";
 import DatePicker from "react-datepicker";
-import { AiFillTags } from "react-icons/ai";
-import { FaPlus } from "react-icons/fa";
 import Label from "./label";
+import LabelPopover from "./label-popover";
 
 const BoardTask = ({
   setTask,
@@ -82,44 +69,11 @@ const BoardTask = ({
             />
           </Box>
 
-          <Popover>
-            <PopoverTrigger>
-              <IconButton
-                mt="0.5rem"
-                variant="ghost"
-                size="sm"
-                color="gray.400"
-                icon={<AiFillTags />}
-              />
-            </PopoverTrigger>
-
-            <PopoverContent w="10rem">
-              <PopoverArrow />
-              <Input
-                onChange={({ target }) => setLabel(target.value)}
-                size="sm"
-                mb="1rem"
-                value={label || ""}
-                placeholder="Set label"
-              />
-
-              {label && (
-                <Flex
-                  transition="all 0.3s ease"
-                  _hover={{ bgColor: "gray.200" }}
-                  p="0.5rem"
-                  alignItems="center"
-                  gap="1rem"
-                  cursor="pointer"
-                  onClick={addLabelHandler}
-                >
-                  <FaPlus />
-
-                  <Text>{label}</Text>
-                </Flex>
-              )}
-            </PopoverContent>
-          </Popover>
+          <LabelPopover
+            label={label}
+            addLabelHandler={addLabelHandler}
+            setLabel={setLabel}
+          />
         </Flex>
       </Box>
 
