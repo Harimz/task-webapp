@@ -1,21 +1,25 @@
-import { addLabelError, addLabelStart, addLabelSuccess } from "../projectSlice";
+import axios from "axios";
+import {
+  deleteTaskError,
+  deleteTaskStart,
+  deleteTaskSuccess,
+} from "../projectSlice";
 
-export const addLabel = async (dispatch, sectionId) => {
-  dispatch(addLabelStart());
+export const deleteTask = async (dispatch, projectId, sectionId, taskId) => {
+  dispatch(deleteTaskStart());
 
   try {
     const { data } = await axios.delete(
-      `/api/sections/${sectionId}`,
-      sectionId
+      `/api/projects/${projectId}/${sectionId}/${taskId}`
     );
 
-    dispatch(addLabelSuccess(data));
+    dispatch(deleteTaskSuccess(data));
   } catch (error) {
     const errorMessage =
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
 
-    dispatch(addLabelError(errorMessage));
+    dispatch(deleteTaskError(errorMessage));
   }
 };

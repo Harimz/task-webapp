@@ -9,14 +9,16 @@ import {
   ModalCloseButton,
   ModalContent,
   ModalFooter,
-  ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/react";
 import DatePicker from "react-datepicker";
 import Label from "./label";
 import LabelPopover from "./label-popover";
+import { useDispatch } from "react-redux";
+import { deleteTask } from "../../../redux/api/taskCalls";
+import { useRouter } from "next/router";
 
-const EditModal = ({ isOpen, onClose, projectColor, task }) => {
+const EditModal = ({ isOpen, onClose, projectColor, task, sectionId }) => {
   const [updatedDate, setUpdatedDate] = useState(new Date());
   const [updatedLabels, setUpdatedLabels] = useState(task.labels || []);
   const [updatedTitle, setUpdatedTitle] = useState(task.title);
@@ -24,7 +26,11 @@ const EditModal = ({ isOpen, onClose, projectColor, task }) => {
     task.description
   );
   const [label, setLabel] = useState("");
+  const dispatch = useDispatch();
   const taskDate = new Date(task.taskDate);
+  const {
+    query: { projectId },
+  } = useRouter();
 
   const addLabelHandler = () => {
     setUpdatedLabels((state) => [...state, { title: label }]);
@@ -32,7 +38,11 @@ const EditModal = ({ isOpen, onClose, projectColor, task }) => {
     setLabel("");
   };
 
-  console.log(updatedLabels);
+  const deleteTaskHandler = () => {
+    const taskId = task._id;
+
+    deleteTask(dispatch, projectId, sectionId, taskId);
+  };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -60,7 +70,7 @@ const EditModal = ({ isOpen, onClose, projectColor, task }) => {
           <Flex mt="1rem" gap="0.5rem" flexWrap="wrap">
             {updatedLabels.map((label, i) => (
               <Label
-                key={i}
+                key={label._id}
                 title={label.title}
                 labels={updatedLabels}
                 edit
@@ -85,7 +95,7 @@ const EditModal = ({ isOpen, onClose, projectColor, task }) => {
         </ModalBody>
 
         <ModalFooter>
-          <Button size="sm" variant="ghost" mr={3}>
+          <Button size="sm" variant="ghost" mr={3} onClick={deleteTaskHandler}>
             Delete
           </Button>
 

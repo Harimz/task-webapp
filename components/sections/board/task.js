@@ -5,7 +5,7 @@ import { format } from "date-fns";
 import { BsThreeDots } from "react-icons/bs";
 import EditModal from "./edit-modal";
 
-const Task = ({ task, projectColor }) => {
+const Task = ({ task, projectColor, sectionId }) => {
   const taskDate = new Date(task.taskDate);
   const date = format(taskDate, "yyyy-MM-dd");
   const [modalOpen, setModalOpen] = useState(false);
@@ -17,6 +17,7 @@ const Task = ({ task, projectColor }) => {
         onClose={setModalOpen}
         task={task}
         projectColor={projectColor}
+        sectionId={sectionId}
       />
 
       <Flex
