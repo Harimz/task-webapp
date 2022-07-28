@@ -3,28 +3,27 @@ import {
   addSectionTaskError,
   addSectionTaskStart,
   addSectionTaskSuccess,
-  removeSectionError,
-  removeSectionStart,
-  removeSectionSuccess,
+  deleteSectionError,
+  deleteSectionStart,
+  deleteSectionSuccess,
 } from "../projectSlice";
 
-export const removeSection = async (dispatch, sectionId) => {
-  dispatch(removeSectionStart());
+export const deleteSection = async (dispatch, projectId, sectionId) => {
+  dispatch(deleteSectionStart());
 
   try {
     const { data } = await axios.delete(
-      `/api/sections/${sectionId}`,
-      sectionId
+      `/api/projects/${projectId}/${sectionId}`
     );
 
-    dispatch(removeSectionSuccess(data));
+    dispatch(deleteSectionSuccess(data));
   } catch (error) {
     const errorMessage =
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
 
-    dispatch(removeSectionError(errorMessage));
+    dispatch(deleteSectionError(errorMessage));
   }
 };
 

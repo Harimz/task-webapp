@@ -41,5 +41,19 @@ export default Wrapper({
       const projects = await Project.find({ user: user._id });
       return projects;
     }
+
+    if (projectId && sectionId) {
+      const updatedSections = project.sections.filter(
+        (section) => section._id.toString() !== sectionId
+      );
+
+      project.sections = updatedSections;
+
+      await project.save();
+
+      const projects = await Project.find({ user: user._id });
+      return projects;
+    }
   },
+  PUT: async (req, res) => {},
 });
