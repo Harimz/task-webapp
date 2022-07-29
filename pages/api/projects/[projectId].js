@@ -82,4 +82,25 @@ export default Wrapper({
       return projects;
     }
   },
+  DELETE: async (req, res) => {
+    const session = await unstable_getServerSession(req, res, authOptions);
+    const {
+      query: { projectId },
+    } = req;
+
+    await dbConnect();
+
+    const user = await User.findOne({ email: session.user.email });
+
+    const project = await Project.findById(projectId);
+
+    if (user._id.toString() !== project.user.toString()) {
+      throw new Exception("Not authorized.", 401);
+    }
+
+    await Project.findByIdAndDelete(projectId);
+
+    const projects = await Project.find({ user: user._id });
+    return projects;
+  },
 });

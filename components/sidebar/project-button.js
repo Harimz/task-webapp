@@ -1,13 +1,34 @@
 import React, { useState } from "react";
-import { Box, Flex, Grid, IconButton, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Grid,
+  IconButton,
+  Popover,
+  PopoverArrow,
+  PopoverContent,
+  PopoverTrigger,
+  Text,
+} from "@chakra-ui/react";
 import { BsThreeDots } from "react-icons/bs";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { FaEdit, FaTrash } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { deleteProject } from "../../redux/api/projectCalls";
 
 const ProjectButton = ({ project, sidebarOpen }) => {
   const [showEdit, setShowEdit] = useState(false);
   const router = useRouter();
   const projectId = router.query.projectId;
+  const dispatch = useDispatch();
+
+  const deleteProjectHandler = () => {
+    deleteProject(dispatch, projectId);
+
+    router.replace("/inbox");
+  };
 
   return (
     <Link passHref href={`/projects/${project._id}`}>
@@ -38,13 +59,37 @@ const ProjectButton = ({ project, sidebarOpen }) => {
         </Grid>
 
         {sidebarOpen && (
-          <IconButton
-            display={showEdit ? "flex" : "none"}
-            bgColor="transparent"
-            color="black"
-            size="sm"
-            icon={<BsThreeDots />}
-          />
+          <Popover placement="right">
+            <PopoverTrigger>
+              <IconButton
+                // display={showEdit ? "flex" : "none"}
+                bgColor="transparent"
+                color="black"
+                size="sm"
+                icon={<BsThreeDots />}
+              />
+            </PopoverTrigger>
+            <PopoverContent w="8rem">
+              <PopoverArrow />
+              <Button
+                variant="ghost"
+                justifyContent="flex-start"
+                size="sm"
+                leftIcon={<FaEdit />}
+              >
+                Edit
+              </Button>
+              <Button
+                variant="ghost"
+                justifyContent="flex-start"
+                size="sm"
+                leftIcon={<FaTrash />}
+                onClick={deleteProjectHandler}
+              >
+                Delete
+              </Button>
+            </PopoverContent>
+          </Popover>
         )}
       </Flex>
     </Link>

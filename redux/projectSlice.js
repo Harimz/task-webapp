@@ -43,6 +43,17 @@ export const projectSlice = createSlice({
       state.pending = false;
       state.error = action.payload;
     },
+    deleteProjectStart: (state, action) => {
+      state.pending = true;
+    },
+    deleteProjectSuccess: (state, action) => {
+      state.pending = false;
+      state.projects = action.payload;
+    },
+    deleteProjectError: (state, action) => {
+      state.pending = false;
+      state.error = action.payload;
+    },
     deleteSectionStart: (state, action) => {
       state.pending = true;
     },
@@ -130,6 +141,9 @@ export const {
   updateTaskStart,
   updateTaskSuccess,
   updateTaskError,
+  deleteProjectStart,
+  deleteProjectSuccess,
+  deleteProjectError,
 } = projectSlice.actions;
 
 export default projectSlice.reducer;

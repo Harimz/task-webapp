@@ -9,6 +9,9 @@ import {
   updateProjectStart,
   updateProjectError,
   updateProjectSuccess,
+  deleteProjectStart,
+  deleteProjectSuccess,
+  deleteProjectError,
 } from "../projectSlice";
 
 export const addProject = async (dispatch, projectDetails) => {
@@ -63,5 +66,22 @@ export const updateProject = async (dispatch, id, updateDetails) => {
         : error.message;
 
     dispatch(updateProjectError(errorMessage));
+  }
+};
+
+export const deleteProject = async (dispatch, projectId) => {
+  dispatch(deleteProjectStart());
+
+  try {
+    const { data } = await axios.delete(`/api/projects/${projectId}`);
+
+    dispatch(deleteProjectSuccess(data));
+  } catch (error) {
+    const errorMessage =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+
+    dispatch(deleteProjectError(errorMessage));
   }
 };
