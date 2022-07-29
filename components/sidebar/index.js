@@ -11,7 +11,7 @@ import AddProject from "../add-project";
 import ProjectList from "./project-list";
 
 const Sidebar = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   const [projectModalOpen, setProjectModalOpen] = useState(false);
 
   return (

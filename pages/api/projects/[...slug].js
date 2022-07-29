@@ -55,5 +55,35 @@ export default Wrapper({
       return projects;
     }
   },
-  PUT: async (req, res) => {},
+  PUT: async (req, res) => {
+    const session = await unstable_getServerSession(req, res, authOptions);
+    const { query } = req;
+    const projectId = query.slug[0];
+    const sectionId = query.slug[1];
+    const taskId = query.slug[2];
+    const updatedTask = req.body;
+
+    await dbConnect();
+
+    const user = await User.findOne({ email: session.user.email });
+
+    const project = await Project.findById(projectId);
+
+    if (user._id.toString() !== project.user.toString()) {
+      throw new Exception("Not authorized.", 401);
+    }
+
+    if (projectId && sectionId && taskId) {
+      project.sections.filter(
+        (section) => section._id.toString() === sectionId
+      )[0].tasks[0] = { section: sectionId, ...updatedTask };
+
+      await project.save();
+
+      const projects = await Project.find({ user: user._id });
+      console.log(projects);
+
+      return projects;
+    }
+  },
 });

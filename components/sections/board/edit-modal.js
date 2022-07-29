@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  Box,
   Button,
   Flex,
   Input,
@@ -15,11 +14,11 @@ import DatePicker from "react-datepicker";
 import Label from "./label";
 import LabelPopover from "./label-popover";
 import { useDispatch } from "react-redux";
-import { deleteTask } from "../../../redux/api/taskCalls";
+import { deleteTask, updateTask } from "../../../redux/api/taskCalls";
 import { useRouter } from "next/router";
 
 const EditModal = ({ isOpen, onClose, projectColor, task, sectionId }) => {
-  const [updatedDate, setUpdatedDate] = useState(new Date());
+  const [updatedDate, setUpdatedDate] = useState(new Date(task.taskDate));
   const [updatedLabels, setUpdatedLabels] = useState(task.labels || []);
   const [updatedTitle, setUpdatedTitle] = useState(task.title);
   const [updatedDescription, setUpdatedDescription] = useState(
@@ -31,6 +30,7 @@ const EditModal = ({ isOpen, onClose, projectColor, task, sectionId }) => {
   const {
     query: { projectId },
   } = useRouter();
+  const taskId = task._id;
 
   const addLabelHandler = () => {
     setUpdatedLabels((state) => [...state, { title: label }]);
@@ -39,9 +39,18 @@ const EditModal = ({ isOpen, onClose, projectColor, task, sectionId }) => {
   };
 
   const deleteTaskHandler = () => {
-    const taskId = task._id;
-
     deleteTask(dispatch, projectId, sectionId, taskId);
+  };
+
+  const updateTaskHandler = () => {
+    updateTask(dispatch, projectId, sectionId, taskId, {
+      title: updatedTitle,
+      description: updatedDescription,
+      taskDate: updatedDate,
+      labels: updatedLabels,
+    });
+
+    onClose(false);
   };
 
   return (
@@ -70,7 +79,7 @@ const EditModal = ({ isOpen, onClose, projectColor, task, sectionId }) => {
           <Flex mt="1rem" gap="0.5rem" flexWrap="wrap">
             {updatedLabels.map((label, i) => (
               <Label
-                key={label._id}
+                key={i}
                 title={label.title}
                 labels={updatedLabels}
                 edit
@@ -82,7 +91,7 @@ const EditModal = ({ isOpen, onClose, projectColor, task, sectionId }) => {
 
           <Flex mt="1rem" justifyContent="space-between" alignItems="center">
             <DatePicker
-              selected={taskDate}
+              selected={updatedDate}
               onChange={(date) => setUpdatedDate(date)}
             />
 
@@ -104,6 +113,7 @@ const EditModal = ({ isOpen, onClose, projectColor, task, sectionId }) => {
             bgColor={projectColor}
             color="white"
             _hover={{ bgColor: `#${projectColor.substring(1)}70` }}
+            onClick={updateTaskHandler}
           >
             Update
           </Button>

@@ -18,7 +18,7 @@ const ProjectList = ({ sidebarOpen }) => {
 
   return (
     <Flex flexDir="column">
-      {projects.map((project) => (
+      {projects?.map((project) => (
         <ProjectButton
           key={project._id}
           project={project}
