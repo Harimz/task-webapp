@@ -81,6 +81,15 @@ export default Wrapper({
       const projects = await Project.find({ user: user._id });
       return projects;
     }
+
+    if (updates.includes("isFavorite")) {
+      project.isFavorite = updateDetails.isFavorite;
+
+      await project.save();
+
+      const projects = await Project.find({ user: user._id });
+      return projects;
+    }
   },
   DELETE: async (req, res) => {
     const session = await unstable_getServerSession(req, res, authOptions);

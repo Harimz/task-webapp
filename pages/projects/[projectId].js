@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useRouter } from "next/router";
 import {
   Box,
@@ -21,17 +21,10 @@ const ProjectPage = () => {
   const { projects, pending } = useSelector((state) => state.projects);
   const { projectId } = router.query;
   const project = projects.filter((project) => project._id === projectId).pop();
-  const [isFavorite, setIsFavorite] = useState(false);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    setIsFavorite(project?.isFavorite);
-  }, [project]);
-
   const favoriteHandler = () => {
-    setIsFavorite((state) => !state);
-
-    // updateProject(dispatch, project._id, { isFavorite: isFavorite });
+    updateProject(dispatch, project._id, { isFavorite: !project.isFavorite });
   };
 
   if (pending) {
@@ -51,7 +44,7 @@ const ProjectPage = () => {
           <IconButton
             onClick={favoriteHandler}
             variant="outline"
-            icon={<FaHeart color={isFavorite ? "red" : "black"} />}
+            icon={<FaHeart color={project?.isFavorite ? "red" : "black"} />}
           />
 
           <Button variant="outline" fontWeight="bold">

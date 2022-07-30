@@ -45,7 +45,7 @@ const Sections = ({ project, pending }) => {
     <Flex
       pb="4rem"
       w="100%"
-      maxW="90rem"
+      maxW="80rem"
       overflowX="auto"
       css={{
         "&::-webkit-scrollbar": {
@@ -72,54 +72,57 @@ const Sections = ({ project, pending }) => {
         ))}
       </Flex>
 
-      {!addSection ? (
-        <Flex
-          p="0.5rem"
-          border="1px solid"
-          borderColor="gray.100"
-          borderRadius="5px"
-          transition="all 0.3s ease"
-          _hover={{ color: "gray.600" }}
-          cursor="pointer"
-          ml="2rem"
-          h="3rem"
-          gap="1rem"
-          alignItems="center"
-          fontWeight="semibold"
-          color="gray.500"
-          onClick={() => setAddSection(true)}
-        >
-          <GoDiffAdded />
-          <Text>Add Section</Text>
-        </Flex>
-      ) : (
-        <Box ml="2rem" gap="1rem" alignItems="center" w="275px">
-          <Input
-            onChange={({ target }) => setSectionName(target.value)}
-            placeholder="Section Name"
-            mb="0.5rem"
-            size="sm"
-          />
-
-          <Flex gap="1rem">
-            <Button
-              disabled={sectionName.length === 0}
-              onClick={addSectionHandler}
-              variant="primary"
-              size="sm"
-            >
-              Add Section
-            </Button>
-            <Button
-              onClick={() => setAddSection(false)}
-              variant="ghost"
-              size="sm"
-            >
-              Cancel
-            </Button>
+      <Flex>
+        {!addSection ? (
+          <Flex
+            p="0.5rem"
+            border="1px solid"
+            borderColor="gray.100"
+            borderRadius="5px"
+            transition="all 0.3s ease"
+            _hover={{ color: "gray.600" }}
+            cursor="pointer"
+            ml="2rem"
+            h="3rem"
+            gap="1rem"
+            alignItems="center"
+            fontWeight="semibold"
+            color="gray.500"
+            onClick={() => setAddSection(true)}
+            w="275px"
+          >
+            <GoDiffAdded />
+            <Text>Add Section</Text>
           </Flex>
-        </Box>
-      )}
+        ) : (
+          <Box ml="2rem" gap="1rem" alignItems="center" w="275px">
+            <Input
+              onChange={({ target }) => setSectionName(target.value)}
+              placeholder="Section Name"
+              mb="0.5rem"
+              size="sm"
+            />
+
+            <Flex gap="1rem">
+              <Button
+                disabled={sectionName.length === 0}
+                onClick={addSectionHandler}
+                variant="primary"
+                size="sm"
+              >
+                Add Section
+              </Button>
+              <Button
+                onClick={() => setAddSection(false)}
+                variant="ghost"
+                size="sm"
+              >
+                Cancel
+              </Button>
+            </Flex>
+          </Box>
+        )}
+      </Flex>
     </Flex>
   );
 };
