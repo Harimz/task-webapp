@@ -6,6 +6,9 @@ import {
   deleteSectionError,
   deleteSectionStart,
   deleteSectionSuccess,
+  updateSectionError,
+  updateSectionStart,
+  updateSectionSuccess,
 } from "../projectSlice";
 
 export const deleteSection = async (dispatch, projectId, sectionId) => {
@@ -43,5 +46,31 @@ export const addSectionTask = async (dispatch, projectId, task) => {
         : error.message;
 
     dispatch(addSectionTaskError(errorMessage));
+  }
+};
+
+export const updateSection = async (
+  dispatch,
+  projectId,
+  sectionId,
+  updatedSection
+) => {
+  dispatch(updateSectionStart());
+
+  try {
+    const { data } = await axios.put(
+      `/api/projects/${projectId}/${sectionId}`,
+      updatedSection,
+      { "Content-Type": "application/json" }
+    );
+
+    dispatch(updateSectionSuccess(data));
+  } catch (error) {
+    const errorMessage =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+
+    dispatch(updateSectionError(errorMessage));
   }
 };

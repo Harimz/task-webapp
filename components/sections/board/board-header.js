@@ -4,6 +4,7 @@ import {
   Flex,
   Heading,
   IconButton,
+  Input,
   Popover,
   PopoverArrow,
   PopoverContent,
@@ -13,21 +14,63 @@ import {
 import { BsThreeDots } from "react-icons/bs";
 import { BiEditAlt } from "react-icons/bi";
 import { AiTwotoneDelete } from "react-icons/ai";
-import { deleteSection } from "../../../redux/api/sectionCalls";
+import { deleteSection, updateSection } from "../../../redux/api/sectionCalls";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 
 const BoardHeader = ({ section, projectColor }) => {
+  const [editSection, setEditSection] = useState(false);
+  const [updatedSection, setUpdatedSection] = useState();
   const dispatch = useDispatch();
   const {
     query: { projectId },
   } = useRouter();
+  const sectionId = section._id;
 
   const deleteSectionHandler = () => {
-    const sectionId = section._id;
-
     deleteSection(dispatch, projectId, sectionId);
   };
+
+  const updateSectionHandler = () => {
+    updateSection(dispatch, projectId, sectionId, { name: updatedSection });
+  };
+
+  if (editSection) {
+    return (
+      <Flex
+        borderBottom="3px solid red"
+        borderColor={projectColor}
+        pb="1rem"
+        flexDir="column"
+      >
+        <Input
+          placeholder="Section Name"
+          variant="filled"
+          size="sm"
+          onChange={({ target }) => setUpdatedSection(target.value)}
+        />
+
+        <Flex mt="1rem" gap="1rem">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setEditSection(false)}
+          >
+            Cancel
+          </Button>
+          <Button
+            size="sm"
+            bgColor={projectColor}
+            color="white"
+            _hover={{ opacity: 0.4 }}
+            onClick={updateSectionHandler}
+          >
+            Save
+          </Button>
+        </Flex>
+      </Flex>
+    );
+  }
 
   return (
     <Flex
@@ -68,6 +111,7 @@ const BoardHeader = ({ section, projectColor }) => {
               variant="ghost"
               size="sm"
               leftIcon={<BiEditAlt />}
+              onClick={() => setEditSection(true)}
             >
               Edit
             </Button>

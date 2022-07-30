@@ -57,6 +57,7 @@ const BoardTask = ({
               labels={labels}
               setLabels={setLabels}
               projectColor={projectColor}
+              edit
             />
           ))}
         </Flex>
@@ -73,6 +74,7 @@ const BoardTask = ({
             label={label}
             addLabelHandler={addLabelHandler}
             setLabel={setLabel}
+            edit
           />
         </Flex>
       </Box>

@@ -28,13 +28,13 @@ export default Wrapper({
         (section) => section._id.toString() === sectionId
       )[0];
 
-      const updatedTasks = section.tasks.filter(
+      const updatess = section.tasks.filter(
         (task) => task._id.toString() !== taskId
       );
 
       project.sections.filter(
         (section) => section._id.toString() === sectionId
-      )[0].tasks = updatedTasks;
+      )[0].tasks = updatess;
 
       await project.save();
 
@@ -61,7 +61,7 @@ export default Wrapper({
     const projectId = query.slug[0];
     const sectionId = query.slug[1];
     const taskId = query.slug[2];
-    const updatedTask = req.body;
+    const updates = req.body;
 
     await dbConnect();
 
@@ -76,13 +76,22 @@ export default Wrapper({
     if (projectId && sectionId && taskId) {
       project.sections.filter(
         (section) => section._id.toString() === sectionId
-      )[0].tasks[0] = { section: sectionId, ...updatedTask };
+      )[0].tasks[0] = { section: sectionId, ...updates };
 
       await project.save();
 
       const projects = await Project.find({ user: user._id });
-      console.log(projects);
+      return projects;
+    }
 
+    if (projectId && sectionId) {
+      project.sections.filter(
+        (section) => section._id.toString() === sectionId
+      )[0].name = updates.name;
+
+      await project.save();
+
+      const projects = await Project.find({ user: user._id });
       return projects;
     }
   },
