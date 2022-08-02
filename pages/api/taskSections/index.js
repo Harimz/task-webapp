@@ -18,10 +18,46 @@ export default Wrapper({
 
     const task = req.body;
 
-    if (!task.belongsTo) {
-      const section = await TaskSection.findOne({ belongsTo: "inbox" });
+    const user = await User.findOne({ email: session.user.email });
 
-      console.log(section);
+    const existingSection = await TaskSection.findOne({
+      user: user._id,
+      belongTo: task.belongsTo,
+    });
+
+    if (!existingSection) {
+      console.log("Section Does not exist");
+
+      const newSection = await TaskSection.create({
+        user: user._id,
+        tasks: [task],
+        belongsTo: task.belongsTo,
+      });
+    } else {
+      const updatedTasks = [...existingSection.tasks, task];
+
+      existingSection.tasks = updatedTasks;
+
+      await existingSection.save();
     }
+
+    const taskSections = await TaskSection.find({ user: user._id });
+
+    return taskSections;
+  },
+  GET: async (req, res) => {
+    const session = await unstable_getServerSession(req, res, authOptions);
+
+    if (!session) {
+      throw new Exception("Not authorized.", 401);
+    }
+
+    await dbConnect();
+
+    const user = await User.findOne({ email: session.user.email });
+
+    const taskSections = await TaskSection.find({ user: user._id });
+
+    return taskSections;
   },
 });

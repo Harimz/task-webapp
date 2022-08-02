@@ -1,5 +1,11 @@
 import mongoose from "mongoose";
 
+const labelSchema = new mongoose.Schema({
+  title: {
+    type: String,
+  },
+});
+
 const taskSchema = new mongoose.Schema({
   title: {
     type: String,
