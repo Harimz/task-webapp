@@ -14,7 +14,10 @@ const textStyles = {
     color: "black",
     fontSize: "1.1rem",
   },
-  text: {},
+  text: {
+    color: "gray.400",
+    fontWeight: FONT_WEIGHT.NORMAL,
+  },
   error: {
     fontSize: "0.75rem",
     color: "danger",

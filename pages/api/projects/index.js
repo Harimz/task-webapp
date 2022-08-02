@@ -51,27 +51,4 @@ export default Wrapper({
 
     return userProjects;
   },
-  PUT: async (req, res) => {
-    const session = await unstable_getServerSession(req, res, authOptions);
-
-    await dbConnect();
-
-    const user = await User.findOne({ email: session.user.email });
-
-    const updateDetails = req.body;
-
-    const project = await Project.findById(updateDetails.projectId);
-
-    if (user._id.toString() !== project.user.toString()) {
-      throw new Exception("Not authorized.", 401);
-    }
-
-    const allowedUpdates = [
-      "name",
-      "members",
-      "comments",
-      "sections",
-      "isFavorite",
-    ];
-  },
 });
