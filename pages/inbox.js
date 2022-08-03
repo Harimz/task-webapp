@@ -21,7 +21,7 @@ const InboxPage = () => {
     <Container p="3rem" m="0 auto" w="100%" maxW="60rem">
       <Heading size="md">Inbox</Heading>
 
-      <Inbox />
+      <Inbox taskSections={taskSections} />
     </Container>
   );
 };

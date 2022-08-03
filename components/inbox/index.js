@@ -6,8 +6,10 @@ import { useSelector, useDispatch } from "react-redux";
 import LabelPopover from "../label/label-popover";
 import Label from "../label";
 import { addTask } from "../../redux/api/taskSectionCalls";
+import InboxTaskLabels from "./inbox-task-labels";
+import TaskListItem from "./task-list-item";
 
-const Inbox = () => {
+const Inbox = ({ taskSections }) => {
   const [mouseHover, setMouseHover] = useState(false);
   const [addTaskOpen, setAddTaskOpen] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
@@ -34,8 +36,18 @@ const Inbox = () => {
     });
   };
 
+  const inboxSection = taskSections.filter(
+    (taskSection) => taskSection.belongTo === "inbox"
+  )[0];
+
   return (
     <Box>
+      <Flex flexDir="column" gap="1rem" mt="1.5rem">
+        {inboxSection?.tasks.map((task) => (
+          <TaskListItem key={task._id} task={task} />
+        ))}
+      </Flex>
+
       {!addTaskOpen ? (
         <Flex
           mt="1rem"
@@ -73,31 +85,15 @@ const Inbox = () => {
             onChange={({ target }) => setTaskDesc(target.value)}
           />
 
-          <Flex mt="1rem" gap="0.5rem" flexWrap="wrap">
-            {labels.map((label, i) => (
-              <Label
-                key={i}
-                title={label.title}
-                labels={labels}
-                setLabels={setLabels}
-                projectColor="gray"
-                edit
-              />
-            ))}
-          </Flex>
-
-          <Flex>
-            <DatePicker
-              selected={startDate}
-              onChange={(date) => setStartDate(date)}
-            />
-
-            <LabelPopover
-              label={label}
-              setLabel={setLabel}
-              addLabelHandler={addLabelHandler}
-            />
-          </Flex>
+          <InboxTaskLabels
+            labels={labels}
+            startDate={startDate}
+            setStartDate={setStartDate}
+            label={label}
+            setLabel={setLabel}
+            addLabelHandler={addLabelHandler}
+            setLabels={setLabels}
+          />
 
           <Flex justifyContent="flex-end" gap="1rem" mt="1rem">
             <Button
