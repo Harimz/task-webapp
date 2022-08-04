@@ -8,6 +8,9 @@ import {
   deleteTaskStart,
   deleteTaskError,
   deleteTaskSuccess,
+  addSectionStart,
+  addSectionError,
+  addSectionSuccess,
 } from "../taskSectionSlice";
 import axios from "axios";
 
@@ -15,9 +18,13 @@ export const addTask = async (dispatch, task) => {
   dispatch(addTaskSectionStart());
 
   try {
-    const { data } = await axios.post("/api/taskSections", task, {
-      "Content-Type": "application/json",
-    });
+    const { data } = await axios.post(
+      "/api/taskSections",
+      { task: task },
+      {
+        "Content-Type": "application/json",
+      }
+    );
 
     dispatch(addTaskSectionSuccess(data));
   } catch (error) {
@@ -63,5 +70,24 @@ export const deleteTask = async (dispatch, belongsTo, taskId) => {
         : error.message;
 
     dispatch(deleteTaskError(errorMessage));
+  }
+};
+
+export const addSection = async (dispatch, belongsTo) => {
+  dispatch(addSectionStart());
+
+  try {
+    const { data } = await axios.post("/api/taskSections", belongsTo, {
+      "Content-Type": "application/json",
+    });
+
+    dispatch(addSectionSuccess(data));
+  } catch (error) {
+    const errorMessage =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+
+    dispatch(addSectionError(errorMessage));
   }
 };

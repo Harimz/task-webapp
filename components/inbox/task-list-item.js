@@ -28,8 +28,6 @@ const TaskListItem = ({ task }) => {
     const belongsTo = task.belongsTo;
     const taskId = task._id;
 
-    console.log(belongsTo, taskId);
-
     deleteTask(dispatch, belongsTo, taskId);
   };
 

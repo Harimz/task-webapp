@@ -26,13 +26,18 @@ export default Wrapper({
     });
 
     if (!existingSection) {
-      console.log("Section Does not exist");
-
-      const newSection = await TaskSection.create({
-        user: user._id,
-        tasks: [task],
-        belongsTo: task.belongsTo,
-      });
+      if (task.title) {
+        await TaskSection.create({
+          user: user._id,
+          tasks: [task],
+          belongsTo: task.belongsTo,
+        });
+      } else {
+        await TaskSection.create({
+          user: user._id,
+          belongsTo: task.belongsTo,
+        });
+      }
     } else {
       const updatedTasks = [...existingSection.tasks, task];
 
