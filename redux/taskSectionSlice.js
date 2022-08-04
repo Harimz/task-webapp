@@ -32,6 +32,17 @@ export const taskSectionsSlice = createSlice({
       state.pending = false;
       state.error = action.payload;
     },
+    deleteTaskStart: (state, action) => {
+      state.pending = true;
+    },
+    deleteTaskSuccess: (state, action) => {
+      state.pending = false;
+      state.taskSections = action.payload;
+    },
+    deleteTaskError: (state, action) => {
+      state.pending = false;
+      state.error = action.payload;
+    },
   },
 });
 
@@ -42,6 +53,9 @@ export const {
   getTaskSectionsStart,
   getTaskSectionsSuccess,
   getTaskSectionsError,
+  deleteTaskStart,
+  deleteTaskSuccess,
+  deleteTaskError,
 } = taskSectionsSlice.actions;
 
 export default taskSectionsSlice.reducer;

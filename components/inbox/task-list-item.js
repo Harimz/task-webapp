@@ -1,13 +1,37 @@
 import React, { useState } from "react";
-import { Box, Flex, IconButton, Radio, Text } from "@chakra-ui/react";
-import { useSelector } from "react-redux";
-import { FaDotCircle } from "react-icons/fa";
+import {
+  Box,
+  Button,
+  Flex,
+  IconButton,
+  Popover,
+  PopoverArrow,
+  PopoverContent,
+  PopoverTrigger,
+  Text,
+} from "@chakra-ui/react";
+import { useSelector, useDispatch } from "react-redux";
+import { FaDotCircle, FaEdit, FaTrash } from "react-icons/fa";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
+import { format } from "date-fns";
+import { AiOutlineTag } from "react-icons/ai";
+import { deleteTask } from "../../redux/api/taskSectionCalls";
 
 const TaskListItem = ({ task }) => {
   const [isCompleted, setIsCompleted] = useState(task.isCompleted);
   const [mouseHover, setMouseHover] = useState(false);
   const { taskSections } = useSelector((state) => state.taskSections);
+  const date = format(new Date(task.taskDate), "yyyy-MM-dd");
+  const dispatch = useDispatch();
+
+  const deleteTaskHandler = () => {
+    const belongsTo = task.belongsTo;
+    const taskId = task._id;
+
+    console.log(belongsTo, taskId);
+
+    deleteTask(dispatch, belongsTo, taskId);
+  };
 
   return (
     <Flex
@@ -28,6 +52,7 @@ const TaskListItem = ({ task }) => {
           cursor="pointer"
           transition="all 0.3s ease"
           bgColor={isCompleted && "primary.200"}
+          _hover={{ bgColor: "primary.100" }}
         />
 
         <Box>
@@ -38,15 +63,49 @@ const TaskListItem = ({ task }) => {
           <Text textStyle="text" fontSize=".75rem">
             {task.description}
           </Text>
+
+          <Flex gap="1rem" color="gray.400">
+            <Text fontSize=".75rem">{date}</Text>
+
+            {task.labels.map((label) => (
+              <Flex key={label._id} alignItems="center" gap=".25rem">
+                <AiOutlineTag />
+
+                <Text fontSize=".75rem">{label.title}</Text>
+              </Flex>
+            ))}
+          </Flex>
         </Box>
       </Flex>
 
       {mouseHover && (
-        <IconButton
-          variant="ghost"
-          size="sm"
-          icon={<BiDotsHorizontalRounded />}
-        />
+        <Popover placement="top">
+          <PopoverTrigger>
+            <IconButton
+              variant="ghost"
+              size="sm"
+              icon={<BiDotsHorizontalRounded />}
+            />
+          </PopoverTrigger>
+          <PopoverContent w="6rem">
+            <PopoverArrow />
+            <Button
+              justifyContent="flex-start"
+              variant="ghost"
+              leftIcon={<FaEdit />}
+            >
+              Edit
+            </Button>
+            <Button
+              justifyContent="flex-start"
+              variant="ghost"
+              leftIcon={<FaTrash />}
+              onClick={deleteTaskHandler}
+            >
+              Delete
+            </Button>
+          </PopoverContent>
+        </Popover>
       )}
     </Flex>
   );

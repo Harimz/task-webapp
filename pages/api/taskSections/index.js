@@ -22,7 +22,7 @@ export default Wrapper({
 
     const existingSection = await TaskSection.findOne({
       user: user._id,
-      belongTo: task.belongsTo,
+      belongsTo: task.belongsTo,
     });
 
     if (!existingSection) {

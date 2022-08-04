@@ -21,11 +21,14 @@ const taskSchema = new mongoose.Schema({
   taskDate: {
     type: String,
   },
+  belongsTo: {
+    type: String,
+  },
   labels: [labelSchema],
 });
 
 const taskSectionSchema = new mongoose.Schema({
-  belongTo: {
+  belongsTo: {
     type: String,
     required: true,
     default: "inbox",

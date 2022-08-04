@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 import { Box, Flex, Input, Text, Button } from "@chakra-ui/react";
 import { AiOutlinePlus } from "react-icons/ai";
-import DatePicker from "react-datepicker";
 import { useSelector, useDispatch } from "react-redux";
-import LabelPopover from "../label/label-popover";
-import Label from "../label";
 import { addTask } from "../../redux/api/taskSectionCalls";
 import InboxTaskLabels from "./inbox-task-labels";
 import TaskListItem from "./task-list-item";
@@ -37,7 +34,7 @@ const Inbox = ({ taskSections }) => {
   };
 
   const inboxSection = taskSections.filter(
-    (taskSection) => taskSection.belongTo === "inbox"
+    (taskSection) => taskSection.belongsTo === "inbox"
   )[0];
 
   return (
