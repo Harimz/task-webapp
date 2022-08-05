@@ -3,7 +3,7 @@ import dbConnect from "../../../lib/db-connect";
 import { unstable_getServerSession } from "next-auth/next";
 import { authOptions } from "../auth/[...nextauth]";
 import User from "../../../models/userModel";
-import TaskSection from "../../../models/taskSectionModel";
+import InboxTask from "../../../models/inboxTaskModel";
 
 export default Wrapper({
   POST: async (req, res) => {
@@ -19,35 +19,23 @@ export default Wrapper({
 
     const user = await User.findOne({ email: session.user.email });
 
-    const existingSection = await TaskSection.findOne({
-      user: user._id,
-      belongsTo: task.belongsTo,
-    });
+    const inbox = await InboxTask.findOne({ user: user._id });
 
-    if (!existingSection) {
-      if (task.title) {
-        await TaskSection.create({
-          user: user._id,
-          tasks: [task],
-          belongsTo: task.belongsTo,
-        });
-      } else {
-        await TaskSection.create({
-          user: user._id,
-          belongsTo: task.belongsTo,
-        });
-      }
+    if (!inbox) {
+      const newInbox = await InboxTask.create({ user: user._id });
+
+      newInbox.tasks = [task];
+
+      await newInbox.save();
     } else {
-      const updatedTasks = [...existingSection.tasks, task];
+      const existingTasks = inbox.tasks;
 
-      existingSection.tasks = updatedTasks;
+      inbox.tasks = [...existingTasks, task];
 
-      await existingSection.save();
+      await inbox.save();
     }
 
-    const taskSections = await TaskSection.find({ user: user._id });
-
-    return taskSections;
+    return inbox;
   },
   GET: async (req, res) => {
     const session = await unstable_getServerSession(req, res, authOptions);
@@ -60,8 +48,8 @@ export default Wrapper({
 
     const user = await User.findOne({ email: session.user.email });
 
-    const taskSections = await TaskSection.find({ user: user._id });
+    const inbox = await InboxTask.findOne({ user: user._id });
 
-    return taskSections;
+    return inbox;
   },
 });

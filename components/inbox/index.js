@@ -5,8 +5,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { addTask } from "../../redux/api/taskSectionCalls";
 import InboxTaskLabels from "./inbox-task-labels";
 import TaskListItem from "./task-list-item";
+import AddSectionTask from "./add-section-task";
+import TaskForm from "./task-form";
+import { addInboxTask } from "../../redux/api/inboxCalls";
 
-const Inbox = ({ taskSections }) => {
+const Inbox = ({ inboxTasks }) => {
   const [mouseHover, setMouseHover] = useState(false);
   const [addTaskOpen, setAddTaskOpen] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
@@ -24,64 +27,36 @@ const Inbox = ({ taskSections }) => {
   };
 
   const addTaskHandler = () => {
-    addTask(dispatch, {
+    addInboxTask(dispatch, {
       title: taskName,
       description: taskDesc,
       taskDate: startDate.toString(),
       labels: labels,
-      belongsTo: "inbox",
     });
   };
-
-  const inboxSection = taskSections.filter(
-    (taskSection) => taskSection.belongsTo === "inbox"
-  )[0];
 
   return (
     <Box>
       <Flex flexDir="column" gap="1rem" mt="1.5rem">
-        {inboxSection?.tasks.map((task) => (
-          <TaskListItem key={task._id} task={task} />
+        {inboxTasks.map((task) => (
+          <TaskListItem inbox key={task._id} task={task} />
         ))}
       </Flex>
 
       {!addTaskOpen ? (
-        <Flex
-          mt="1rem"
-          gap="1rem"
-          alignItems="center"
-          cursor="pointer"
-          onMouseOver={() => setMouseHover(true)}
-          onMouseOut={() => setMouseHover(false)}
-          transition="background 0.3s ease"
-          bgColor={mouseHover && "gray.100"}
-          borderRadius="10px"
-          p=".25rem"
-          onClick={() => setAddTaskOpen(true)}
-        >
-          <AiOutlinePlus />
-          <Text textStyle="text">Add Task</Text>
-        </Flex>
+        <AddSectionTask
+          setMouseHover={setMouseHover}
+          mouseHover={mouseHover}
+          setAddTaskOpen={setAddTaskOpen}
+        />
       ) : (
-        <Flex
-          boxShadow="rgba(99, 99, 99, 0.2) 0px 2px 8px 0px"
-          p="1rem"
-          borderRadius="10px"
-          mt="1rem"
-          flexDir="column"
-          gap="1rem"
+        <TaskForm
+          setTaskName={setTaskName}
+          setTaskDesc={setTaskDesc}
+          addTaskHandler={addTaskHandler}
+          setAddTaskOpen={setAddTaskOpen}
+          setMouseHover={setMouseHover}
         >
-          <Input
-            variant="flushed"
-            placeholder="Task Name"
-            onChange={({ target }) => setTaskName(target.value)}
-          />
-          <Input
-            variant="unstyled"
-            placeholder="Task Description"
-            onChange={({ target }) => setTaskDesc(target.value)}
-          />
-
           <InboxTaskLabels
             labels={labels}
             startDate={startDate}
@@ -91,23 +66,7 @@ const Inbox = ({ taskSections }) => {
             addLabelHandler={addLabelHandler}
             setLabels={setLabels}
           />
-
-          <Flex justifyContent="flex-end" gap="1rem" mt="1rem">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => {
-                setAddTaskOpen(false);
-                setMouseHover(false);
-              }}
-            >
-              Cancel
-            </Button>
-            <Button variant="primary" size="sm" onClick={addTaskHandler}>
-              Save
-            </Button>
-          </Flex>
-        </Flex>
+        </TaskForm>
       )}
     </Box>
   );

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Box, Button, Flex, Input } from "@chakra-ui/react";
 import { useDispatch } from "react-redux";
-import { addSection } from "../../redux/api/taskSectionCalls";
+import { addSection } from "../../../redux/api/taskSectionCalls";
 
 const AddSection = ({ addSectionOpen, setAddSectionOpen }) => {
   const [sectionName, setSectionName] = useState("");

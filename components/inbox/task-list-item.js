@@ -16,8 +16,9 @@ import { BiDotsHorizontalRounded } from "react-icons/bi";
 import { format } from "date-fns";
 import { AiOutlineTag } from "react-icons/ai";
 import { deleteTask } from "../../redux/api/taskSectionCalls";
+import { deleteInboxTask } from "../../redux/api/inboxCalls";
 
-const TaskListItem = ({ task }) => {
+const TaskListItem = ({ task, inbox }) => {
   const [isCompleted, setIsCompleted] = useState(task.isCompleted);
   const [mouseHover, setMouseHover] = useState(false);
   const { taskSections } = useSelector((state) => state.taskSections);
@@ -28,7 +29,12 @@ const TaskListItem = ({ task }) => {
     const belongsTo = task.belongsTo;
     const taskId = task._id;
 
-    deleteTask(dispatch, belongsTo, taskId);
+    if (inbox) {
+      const inboxTaskId = task._id;
+      deleteInboxTask(dispatch, inboxTaskId);
+    } else {
+      deleteTask(dispatch, belongsTo, taskId);
+    }
   };
 
   return (

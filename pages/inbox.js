@@ -4,19 +4,25 @@ import Inbox from "../components/inbox";
 import { useSelector, useDispatch } from "react-redux";
 import { getTaskSections } from "../redux/api/taskSectionCalls";
 import { MdPlaylistAdd } from "react-icons/md";
-import AddSection from "../components/inbox-sections/add-section";
+import InboxSections from "../components/inbox/sections";
+import AddSection from "../components/inbox/sections/add-section";
+import { getInboxTasks } from "../redux/api/inboxCalls";
 
 const InboxPage = () => {
   const [addSectionOpen, setAddSectionOpen] = useState(false);
   const { taskSections, pending } = useSelector((state) => state.taskSections);
+  const { inboxTasks, pending: inboxPending } = useSelector(
+    (state) => state.inboxTasks
+  );
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     getTaskSections(dispatch);
+    getInboxTasks(dispatch);
   }, [dispatch]);
 
-  if (pending) {
+  if (pending || inboxPending) {
     return "";
   }
 
@@ -33,12 +39,14 @@ const InboxPage = () => {
         />
       </Flex>
 
-      <Inbox taskSections={taskSections} />
+      <Inbox inboxTasks={inboxTasks} />
 
       <AddSection
         addSectionOpen={addSectionOpen}
         setAddSectionOpen={setAddSectionOpen}
       />
+
+      <InboxSections taskSections={taskSections} />
     </Container>
   );
 };
