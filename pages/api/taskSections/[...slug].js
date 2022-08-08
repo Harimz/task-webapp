@@ -9,7 +9,7 @@ import TaskSection from "../../../models/taskSectionModel";
 export default Wrapper({
   DELETE: async (req, res) => {
     const session = await unstable_getServerSession(req, res, authOptions);
-    const belongsTo = req.query.slug[0];
+    const sectionId = req.query.slug[0];
     const taskId = req.query.slug[1];
 
     if (!session) {
@@ -20,7 +20,7 @@ export default Wrapper({
 
     const user = await User.findOne({ email: session.user.email });
 
-    const taskSection = await TaskSection.findOne({ belongsTo });
+    const taskSection = await TaskSection.findById(sectionId);
 
     if (!taskSection.user === user._id.toString()) {
       throw new Exception("Not authorized.", 401);

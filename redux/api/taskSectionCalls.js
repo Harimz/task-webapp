@@ -14,12 +14,12 @@ import {
 } from "../taskSectionSlice";
 import axios from "axios";
 
-export const addTask = async (dispatch, task) => {
+export const addTask = async (dispatch, task, sectionId) => {
   dispatch(addTaskSectionStart());
 
   try {
-    const { data } = await axios.post(
-      "/api/taskSections",
+    const { data } = await axios.put(
+      `/api/taskSections/${sectionId}`,
       { task: task },
       {
         "Content-Type": "application/json",
@@ -54,12 +54,12 @@ export const getTaskSections = async (dispatch) => {
   }
 };
 
-export const deleteTask = async (dispatch, belongsTo, taskId) => {
+export const deleteTask = async (dispatch, sectionId, taskId) => {
   dispatch(deleteTaskStart());
 
   try {
     const { data } = await axios.delete(
-      `/api/taskSections/${belongsTo}/${taskId}`
+      `/api/taskSections/${sectionId}/${taskId}`
     );
 
     dispatch(deleteTaskSuccess(data));
@@ -73,11 +73,11 @@ export const deleteTask = async (dispatch, belongsTo, taskId) => {
   }
 };
 
-export const addSection = async (dispatch, belongsTo) => {
+export const addSection = async (dispatch, name) => {
   dispatch(addSectionStart());
 
   try {
-    const { data } = await axios.post("/api/taskSections", belongsTo, {
+    const { data } = await axios.post("/api/taskSections", name, {
       "Content-Type": "application/json",
     });
 

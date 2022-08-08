@@ -18,7 +18,7 @@ import { AiOutlineTag } from "react-icons/ai";
 import { deleteTask } from "../../redux/api/taskSectionCalls";
 import { deleteInboxTask } from "../../redux/api/inboxCalls";
 
-const TaskListItem = ({ task, inbox }) => {
+const TaskListItem = ({ task, sectionId, inbox }) => {
   const [isCompleted, setIsCompleted] = useState(task.isCompleted);
   const [mouseHover, setMouseHover] = useState(false);
   const { taskSections } = useSelector((state) => state.taskSections);
@@ -33,7 +33,7 @@ const TaskListItem = ({ task, inbox }) => {
       const inboxTaskId = task._id;
       deleteInboxTask(dispatch, inboxTaskId);
     } else {
-      deleteTask(dispatch, belongsTo, taskId);
+      deleteTask(dispatch, sectionId, taskId);
     }
   };
 

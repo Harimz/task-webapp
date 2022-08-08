@@ -41,12 +41,12 @@ const InboxPage = () => {
 
       <Inbox inboxTasks={inboxTasks} />
 
+      <InboxSections taskSections={taskSections} />
+
       <AddSection
         addSectionOpen={addSectionOpen}
         setAddSectionOpen={setAddSectionOpen}
       />
-
-      <InboxSections taskSections={taskSections} />
     </Container>
   );
 };

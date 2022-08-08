@@ -8,7 +8,7 @@ const AddSection = ({ addSectionOpen, setAddSectionOpen }) => {
   const dispatch = useDispatch();
 
   const addSectionHandler = () => {
-    addSection(dispatch, { belongsTo: sectionName });
+    addSection(dispatch, { name: sectionName });
   };
 
   return (
