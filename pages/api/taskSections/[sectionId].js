@@ -40,7 +40,7 @@ export default Wrapper({
   },
   DELETE: async (req, res) => {
     const session = await unstable_getServerSession(req, res, authOptions);
-    const { sectionId } = req.query.query;
+    const { sectionId } = req.query;
 
     if (!session) {
       throw new Exception("Not authorized.", 401);
@@ -50,10 +50,16 @@ export default Wrapper({
 
     const user = await User.findOne({ email: session.user.email });
 
-    const taskSection = await TaskSection.findOne({ belongsTo });
+    const taskSection = await TaskSection.findById(sectionId);
 
     if (!taskSection.user === user._id.toString()) {
       throw new Exception("Not authorized.", 401);
     }
+
+    await TaskSection.findByIdAndDelete(sectionId);
+
+    const taskSections = await TaskSection.find({ user: user._id });
+
+    return taskSections;
   },
 });

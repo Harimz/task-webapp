@@ -1,13 +1,23 @@
 import React, { useState } from "react";
-import { Box, Flex, Heading, IconButton, Spacer } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Heading,
+  IconButton,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  Spacer,
+} from "@chakra-ui/react";
 import { MdKeyboardArrowDown, MdKeyboardArrowRight } from "react-icons/md";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 import AddSectionTask from "../add-section-task";
 import TaskForm from "../task-form";
 import InboxTaskLabels from "../inbox-task-labels";
-import { addTask } from "../../../redux/api/taskSectionCalls";
+import { addTask, deleteSection } from "../../../redux/api/taskSectionCalls";
 import { useDispatch } from "react-redux";
 import TaskListItem from "../task-list-item";
+import { DeleteButton, EditButton } from "../../shared";
 
 const SectionList = ({ section }) => {
   const [mouseHover, setMouseHover] = useState(false);
@@ -40,6 +50,10 @@ const SectionList = ({ section }) => {
     setLabel("");
   };
 
+  const deleteSectionHandler = () => {
+    deleteSection(dispatch, sectionId);
+  };
+
   return (
     <Box w="100%">
       <Flex w="100%" alignItems="center">
@@ -60,11 +74,19 @@ const SectionList = ({ section }) => {
 
         <Spacer />
 
-        <IconButton
-          variant="ghost"
-          icon={<BiDotsHorizontalRounded />}
-          size="sm"
-        />
+        <Popover placement="top">
+          <PopoverTrigger>
+            <IconButton
+              variant="ghost"
+              icon={<BiDotsHorizontalRounded />}
+              size="sm"
+            />
+          </PopoverTrigger>
+          <PopoverContent w="6.5rem">
+            <EditButton />
+            <DeleteButton onDelete={deleteSectionHandler} />
+          </PopoverContent>
+        </Popover>
       </Flex>
 
       {showTasks && (

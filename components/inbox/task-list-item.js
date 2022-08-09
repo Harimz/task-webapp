@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   Box,
-  Button,
   Flex,
   IconButton,
   Popover,
@@ -11,12 +10,12 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { useSelector, useDispatch } from "react-redux";
-import { FaDotCircle, FaEdit, FaTrash } from "react-icons/fa";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 import { format } from "date-fns";
 import { AiOutlineTag } from "react-icons/ai";
 import { deleteTask } from "../../redux/api/taskSectionCalls";
 import { deleteInboxTask } from "../../redux/api/inboxCalls";
+import { DeleteButton, EditButton } from "../shared";
 
 const TaskListItem = ({ task, sectionId, inbox }) => {
   const [isCompleted, setIsCompleted] = useState(task.isCompleted);
@@ -93,21 +92,8 @@ const TaskListItem = ({ task, sectionId, inbox }) => {
           </PopoverTrigger>
           <PopoverContent w="6rem">
             <PopoverArrow />
-            <Button
-              justifyContent="flex-start"
-              variant="ghost"
-              leftIcon={<FaEdit />}
-            >
-              Edit
-            </Button>
-            <Button
-              justifyContent="flex-start"
-              variant="ghost"
-              leftIcon={<FaTrash />}
-              onClick={deleteTaskHandler}
-            >
-              Delete
-            </Button>
+            <EditButton />
+            <DeleteButton onDelete={deleteTaskHandler} />
           </PopoverContent>
         </Popover>
       )}
