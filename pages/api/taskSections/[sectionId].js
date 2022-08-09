@@ -34,6 +34,20 @@ export default Wrapper({
       await section.save();
     }
 
+    if (updateDetails.name) {
+      const sectionExists = await TaskSection.findOne({
+        name: updateDetails.name,
+      });
+
+      if (sectionExists) {
+        throw new Exception("Section name already in use", 409);
+      }
+
+      await TaskSection.findByIdAndUpdate(sectionId, {
+        name: updateDetails.name,
+      });
+    }
+
     const taskSections = await TaskSection.find({ user: user._id });
 
     return taskSections;

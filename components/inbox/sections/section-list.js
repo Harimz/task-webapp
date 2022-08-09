@@ -4,17 +4,23 @@ import {
   Flex,
   Heading,
   IconButton,
+  Input,
   Popover,
   PopoverContent,
   PopoverTrigger,
   Spacer,
+  Button,
 } from "@chakra-ui/react";
 import { MdKeyboardArrowDown, MdKeyboardArrowRight } from "react-icons/md";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 import AddSectionTask from "../add-section-task";
 import TaskForm from "../task-form";
 import InboxTaskLabels from "../inbox-task-labels";
-import { addTask, deleteSection } from "../../../redux/api/taskSectionCalls";
+import {
+  addTask,
+  deleteSection,
+  updateSection,
+} from "../../../redux/api/taskSectionCalls";
 import { useDispatch } from "react-redux";
 import TaskListItem from "../task-list-item";
 import { DeleteButton, EditButton } from "../../shared";
@@ -28,6 +34,8 @@ const SectionList = ({ section }) => {
   const [taskName, setTaskName] = useState("");
   const [taskDesc, setTaskDesc] = useState("");
   const [showTasks, setShowTasks] = useState(true);
+  const [editSection, setEditSection] = useState(false);
+  const [updatedSection, setUpdatedSection] = useState("");
   const dispatch = useDispatch();
   const sectionId = section._id;
 
@@ -54,6 +62,10 @@ const SectionList = ({ section }) => {
     deleteSection(dispatch, sectionId);
   };
 
+  const editSectionHandler = () => {
+    updateSection(dispatch, sectionId, updatedSection);
+  };
+
   return (
     <Box w="100%">
       <Flex w="100%" alignItems="center">
@@ -68,9 +80,33 @@ const SectionList = ({ section }) => {
             onClick={() => setShowTasks((state) => !state)}
           />
         )}
-        <Heading ml="0.5rem" size="sm">
-          {section.name}
-        </Heading>
+        {!editSection ? (
+          <Heading ml="0.5rem" size="sm">
+            {section.name}
+          </Heading>
+        ) : (
+          <Flex gap="1rem">
+            <Input
+              onChange={({ target }) => setUpdatedSection(target.value)}
+              ml="0.5rem"
+              size="sm"
+              placeholder="Section Name"
+            />
+
+            <Flex gap="0.5rem">
+              <Button variant="primary" size="sm" onClick={editSectionHandler}>
+                Save
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setEditSection(false)}
+              >
+                Cancel
+              </Button>
+            </Flex>
+          </Flex>
+        )}
 
         <Spacer />
 
@@ -83,7 +119,7 @@ const SectionList = ({ section }) => {
             />
           </PopoverTrigger>
           <PopoverContent w="6.5rem">
-            <EditButton />
+            <EditButton onEdit={() => setEditSection(true)} />
             <DeleteButton onDelete={deleteSectionHandler} />
           </PopoverContent>
         </Popover>

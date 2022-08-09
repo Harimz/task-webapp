@@ -14,6 +14,9 @@ import {
   deleteSectionStart,
   deleteSectionSuccess,
   deleteSectionError,
+  updateSectionStart,
+  updateSectionSuccess,
+  updateSectionError,
 } from "../taskSectionSlice";
 import axios from "axios";
 
@@ -109,5 +112,24 @@ export const addSection = async (dispatch, name) => {
         : error.message;
 
     dispatch(addSectionError(errorMessage));
+  }
+};
+
+export const updateSection = async (dispatch, sectionId, updatedSection) => {
+  dispatch(updateSectionStart());
+
+  try {
+    const { data } = await axios.put(`/api/taskSections/${sectionId}`, {
+      name: updatedSection,
+    });
+
+    dispatch(updateSectionSuccess(data));
+  } catch (error) {
+    const errorMessage =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+
+    dispatch(updateSectionError(errorMessage));
   }
 };
