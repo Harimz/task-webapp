@@ -61,7 +61,7 @@ export default Wrapper({
     const projectId = query.slug[0];
     const sectionId = query.slug[1];
     const taskId = query.slug[2];
-    const updates = req.body;
+    const updates = Object.keys(req.body);
 
     await dbConnect();
 
@@ -74,9 +74,11 @@ export default Wrapper({
     }
 
     if (projectId && sectionId && taskId) {
-      project.sections.filter(
-        (section) => section._id.toString() === sectionId
-      )[0].tasks[0] = { section: sectionId, ...updates };
+      const sectionTask = project.sections
+        .filter((section) => section._id.toString() === sectionId)[0]
+        .tasks.filter((task) => task._id.toString() === taskId)[0];
+
+      updates.forEach((update) => (sectionTask[update] = req.body[update]));
 
       await project.save();
 
@@ -87,7 +89,7 @@ export default Wrapper({
     if (projectId && sectionId) {
       project.sections.filter(
         (section) => section._id.toString() === sectionId
-      )[0].name = updates.name;
+      )[0].name = req.body["name"];
 
       await project.save();
 

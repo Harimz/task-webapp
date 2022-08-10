@@ -22,7 +22,7 @@ const InboxTaskLabels = ({
             title={label.title}
             labels={labels}
             setLabels={setLabels}
-            projectColor="gray"
+            projectColor="#808080"
             edit
           />
         ))}
