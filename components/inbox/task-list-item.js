@@ -66,6 +66,7 @@ const TaskListItem = ({ task, sectionId, inbox }) => {
             transition="all 0.3s ease"
             bgColor={isCompleted && "primary.200"}
             _hover={{ bgColor: "primary.100" }}
+            onClick={deleteTaskHandler}
           />
 
           <Box>

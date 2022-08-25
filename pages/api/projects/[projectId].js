@@ -50,9 +50,6 @@ export default Wrapper({
       project.sections = existingSections;
 
       await project.save();
-
-      const projects = await Project.find({ user: user._id });
-      return projects;
     }
 
     if (updates.includes("task")) {
@@ -77,19 +74,22 @@ export default Wrapper({
       )[0] = existingSection;
 
       await project.save();
-
-      const projects = await Project.find({ user: user._id });
-      return projects;
     }
 
     if (updates.includes("isFavorite")) {
       project.isFavorite = updateDetails.isFavorite;
 
       await project.save();
-
-      const projects = await Project.find({ user: user._id });
-      return projects;
     }
+
+    if (updates.includes("name")) {
+      project.name = updateDetails.name;
+
+      await project.save();
+    }
+
+    const projects = await Project.find({ user: user._id });
+    return projects;
   },
   DELETE: async (req, res) => {
     const session = await unstable_getServerSession(req, res, authOptions);

@@ -5,6 +5,13 @@ import {
   Flex,
   Grid,
   IconButton,
+  Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
   Popover,
   PopoverArrow,
   PopoverContent,
@@ -16,10 +23,12 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { useDispatch } from "react-redux";
-import { deleteProject } from "../../redux/api/projectCalls";
+import { deleteProject, updateProject } from "../../redux/api/projectCalls";
+import { DeleteButton, EditButton } from "../shared";
 
 const ProjectButton = ({ project, sidebarOpen }) => {
   const [showEdit, setShowEdit] = useState(false);
+  const [editProjectName, setEditProjectName] = useState("");
   const router = useRouter();
   const projectId = router.query.projectId;
   const dispatch = useDispatch();
@@ -30,69 +39,87 @@ const ProjectButton = ({ project, sidebarOpen }) => {
     router.replace("/inbox");
   };
 
-  return (
-    <Link passHref href={`/projects/${project._id}`}>
-      <Flex
-        onMouseOver={() => setShowEdit(true)}
-        onMouseOut={() => setShowEdit(false)}
-        h="2.5rem"
-        p="1rem"
-        transition="all 0.3s ease"
-        color="gray.400"
-        bgColor={projectId === project._id && "gray.100"}
-        fontWeight="semibold"
-        _hover={{ bgColor: "gray.100", color: "black" }}
-        alignItems="center"
-        cursor="pointer"
-      >
-        <Grid
-          gridTemplateColumns={sidebarOpen ? "1rem 10rem" : ""}
-          gap="1rem"
-          w="100%"
-          alignItems="center"
-          justifyContent={sidebarOpen ? "" : "center"}
-        >
-          <Box h="1rem" w="1rem" bgColor={project.color} borderRadius="50%" />
-          <Text display={sidebarOpen ? "block" : "none"} w="100%">
-            {project.name}
-          </Text>
-        </Grid>
+  const editProjectHandler = () => {
+    setShowEdit(true);
+  };
 
-        {sidebarOpen && (
-          <Popover placement="right">
-            <PopoverTrigger>
-              <IconButton
-                // display={showEdit ? "flex" : "none"}
-                bgColor="transparent"
-                color="black"
-                size="sm"
-                icon={<BsThreeDots />}
-              />
-            </PopoverTrigger>
-            <PopoverContent w="8rem">
-              <PopoverArrow />
+  return (
+    <>
+      <Modal isOpen={showEdit} onClose={() => setShowEdit(false)}>
+        <ModalOverlay />
+        <ModalContent maxW="25rem" w="95%">
+          <ModalHeader>Edit Project Name</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Input
+              variant="flushed"
+              placeholder="Project Name"
+              onChange={({ target }) => setEditProjectName(target.value)}
+            />
+
+            <Flex justifyContent="flex-end" mt="1rem">
               <Button
-                variant="ghost"
-                justifyContent="flex-start"
+                variant="primary"
                 size="sm"
-                leftIcon={<FaEdit />}
+                onClick={() =>
+                  updateProject(dispatch, projectId, { name: editProjectName })
+                }
+                disabled={editProjectName.length === 0}
               >
-                Edit
+                Save
               </Button>
-              <Button
-                variant="ghost"
-                justifyContent="flex-start"
-                size="sm"
-                leftIcon={<FaTrash />}
-                onClick={deleteProjectHandler}
-              >
-                Delete
-              </Button>
-            </PopoverContent>
-          </Popover>
-        )}
-      </Flex>
-    </Link>
+            </Flex>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+
+      <Link passHref href={`/projects/${project._id}`}>
+        <Flex
+          h="2.5rem"
+          p="1rem"
+          transition="all 0.3s ease"
+          color="gray.400"
+          bgColor={projectId === project._id && "gray.100"}
+          fontWeight="semibold"
+          _hover={{ bgColor: "gray.100", color: "black" }}
+          alignItems="center"
+          cursor="pointer"
+        >
+          <Grid
+            gridTemplateColumns={sidebarOpen ? "1rem 10rem" : ""}
+            gap="1rem"
+            w="100%"
+            alignItems="center"
+            justifyContent={sidebarOpen ? "" : "center"}
+          >
+            <Box h="1rem" w="1rem" bgColor={project.color} borderRadius="50%" />
+            <Text display={sidebarOpen ? "block" : "none"} w="100%">
+              {project.name}
+            </Text>
+          </Grid>
+
+          {sidebarOpen && (
+            <Popover placement="right">
+              <PopoverTrigger>
+                <IconButton
+                  // display={showEdit ? "flex" : "none"}
+                  bgColor="transparent"
+                  color="black"
+                  size="sm"
+                  icon={<BsThreeDots />}
+                />
+              </PopoverTrigger>
+              <PopoverContent w="8rem">
+                <PopoverArrow />
+                <EditButton onEdit={editProjectHandler} />
+
+                <DeleteButton onDelete={deleteProjectHandler} />
+              </PopoverContent>
+            </Popover>
+          )}
+        </Flex>
+      </Link>
+    </>
   );
 };
 
